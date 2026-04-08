@@ -128,8 +128,8 @@
     {
       "parameters": {
         "model": "qwen-3-32b",
-        "prompt": "={{ $json.user_prompt }}",
-        "systemMessage": "={{ $json.system_prompt }}",
+        "prompt": "={{ $('Smart Selector').first().json.user_prompt }}",
+        "systemMessage": "={{ $('Smart Selector').first().json.system_prompt }}",
         "options": {}
       },
       "type": "n8n-nodes-cerebras-api.cerebrasChatModel",
@@ -405,8 +405,8 @@
     {
       "parameters": {
         "model": "qwen-3-32b",
-        "prompt": "={{ $json.user_prompt }}",
-        "systemMessage": "={{ $json.system_prompt }}",
+        "prompt": "={{ $('Smart Selector').first().json.user_prompt }}",
+        "systemMessage": "={{ $('Smart Selector').first().json.system_prompt }}",
         "options": {}
       },
       "type": "n8n-nodes-cerebras-api.cerebrasChatModel",
@@ -495,12 +495,12 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ 'https://graph.facebook.com/v21.0/' + $('Prepare Data').first().json.config.facebook.page_id + '/feed' }}",
+        "url": "={{ 'https://graph.facebook.com/v21.0/' + $('Prepare Data').first().json.config.facebook.page_id + '/photos' }}",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ message: $json.final_post }) }}",
+        "jsonBody": "={{ JSON.stringify({ message: $('Extract Final Post').first().json.final_post, url: $('HTML/CSS to Image').first().json.image_url }) }}",
         "options": {
           "timeout": 15000
         }
