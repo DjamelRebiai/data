@@ -1,0 +1,173 @@
+{
+  "service_id": "SRV-03",
+  "service_name": "تطوير الموقع الشامل – واجهة أمامية وخلفية",
+  "service_name_en": "Full Stack Web Development – Frontend + Backend",
+  "category": "fullstack",
+  "description": "بناء أنظمة ومنصات ويب متكاملة ومؤمنة بالكامل من الصفر. من تصميم الواجهة وتجربة المستخدم، إلى قواعد البيانات وحماية السيرفرات وإعداد البنية التحتية السحابية.",
+  "target_audience": [
+    "الشركات متوسطة الحجم والمؤسسات",
+    "المؤسسات التي تدير بيانات عملاء حساسة",
+    "المتاجر الإلكترونية المتقدمة ذات حركة المرور العالية",
+    "المنصات التعليمية والاشتراكية",
+    "تطبيقات SaaS المبتكرة"
+  ],
+  "tech_stack_options": {
+    "frontend": ["Next.js (React)", "Nuxt.js (Vue)", "TypeScript", "TailwindCSS"],
+    "backend": ["Node.js (Express/Fastify)", "Python (Django/FastAPI)"],
+    "database": ["PostgreSQL (Supabase)", "MySQL (PlanetScale)", "Redis"],
+    "infrastructure": ["AWS", "Vercel", "Cloudflare", "Docker"]
+  },
+  "delivery_unit": "يوم عمل",
+  "packages": [
+    {
+      "package_id": "PKG-03-LAUNCH",
+      "package_name": "باقة المنصة الناشئة",
+      "package_name_en": "Startup Platform",
+      "badge": "لإطلاق فكرتك",
+      "price": {
+        "base": 600,
+        "currency": "USD",
+        "note": "يبدأ من – يتفاوت مع عدد الصفحات وتعقيد الـ API",
+        "variable": true,
+        "range_max": 1000
+      },
+      "delivery_days": 14,
+      "revisions": 3,
+      "roi": "منصة عملية آمنة لاختبار فكرتك في السوق بأقوى التقنيات بتكلفة مدروسة",
+      "features": {
+        "general": [
+          "موقع ويب كامل حتى 5 صفحات مع باك-إند قوي",
+          "نظام تسجيل دخول وإنشاء حسابات للزبائن",
+          "لوحة تحكم أساسية للمدير لإدارة المحتوى",
+          "قاعدة بيانات منظمة وآمنة للبيانات",
+          "نشر على استضافة سحابية عالية الأداء",
+          "دعم فني 30 يوماً وتدريب سريع",
+          "نطاق Domain مجاني للسنة الأولى"
+        ],
+        "frontend_features": [
+          "تصميم Responsive احترافي لجميع الشاشات",
+          "تطوير الواجهة باستخدام React.js / Node.js",
+          "نماذج بيانات مع التحقق من الأخطاء (Validation)",
+          "Protected Routes وحماية الصفحات الخاصة"
+        ],
+        "backend_features": [
+          "RESTful API موثق بدقة",
+          "نظام مصادقة آمن (JWT Session)",
+          "لوحة تحكم للمحتوى الأساسي (CRUD)",
+          "تشفير قوي لكلمات المرور",
+          "إشعارات بريد إلكتروني تلقائية للزبائن"
+        ],
+        "security_performance": [
+          "سرعة تحميل أقل من 2 ثانية (Lighthouse 80+)",
+          "شهادة SSL مجانية وتشفير HTTPS إلزامي",
+          "حماية ضد الحقن (SQL Injection & XSS)",
+          "Cloudflare CDN تسريع عالمي مجاني",
+          "نسخ احتياطية لقاعدة البيانات أسبوعياً"
+        ],
+        "not_included": ["بوابة دفع", "API خارجية معقدة", "تطبيق هاتف"]
+      }
+    },
+    {
+      "package_id": "PKG-03-GROWTH",
+      "package_name": "باقة النمو والتوسع",
+      "package_name_en": "Growth & Scale",
+      "badge": "الأكثر اختياراً",
+      "price": {
+        "base": 1500,
+        "currency": "USD",
+        "note": "يبدأ من – السعر يُحدد بعد جلسة تحليل المتطلبات",
+        "variable": true,
+        "range_max": 3000
+      },
+      "delivery_days": 30,
+      "revisions": 5,
+      "roi": "منصة متكاملة تدير أعمالك آلياً وتقبل الدفع وتقاوم الضغط العالي للزوار",
+      "features": {
+        "general": [
+          "تطبيق ويب Full Stack حتى 15 صفحة (Node.js & Next.js)",
+          "لوحة تحكم Admin متقدمة مع إحصائيات المبيعات",
+          "نظام أدوار المستخدمين وادارة الصلاحيات",
+          "تكامل مع بوابات الدفع (Stripe / PayPal)",
+          "نظام إشعارات بالبريد والـ SMS",
+          "دعم فني 60 يوماً وضمان جودة الكود",
+          "منصة تدر الأرباح وتدير الطلبات أوتوماتيكياً"
+        ],
+        "backend_database": [
+          "GraphQL أو Advanced REST API",
+          "PostgreSQL أو MySQL بأداء محسّن",
+          "Redis Cache لتخفيف الضغط وتسريع الاستجابة",
+          "Job Queue للعمليات الثقيلة (إرسال مئات الإيميلات)",
+          "تصدير التقارير (Excel/PDF) أوتوماتيكياً",
+          "API Versioning",
+          "تحسين استعلامات قاعدة البيانات (Query Optimization)"
+        ],
+        "security_devops": [
+          "سرعة استجابة مذهلة (Response time < 200ms)",
+          "شهادة SSL مستوى متقدم",
+          "حماية قوية ضد هجمات DDoS بهيكلية Cloudflare",
+          "ربط التسجيل بـ Google / Facebook (OAuth2)",
+          "نظام مراقبة النشاط المريب (Rate Limiting)",
+          "Docker Compose وتجهيز بيئة الإنتاج",
+          "نسخ احتياطية يومية للبيانات",
+          "Uptime 99.9% مضمون"
+        ],
+        "not_included": ["بنية Microservices المعقدة", "AI Integration"]
+      }
+    },
+    {
+      "package_id": "PKG-03-ENTERPRISE",
+      "package_name": "باقة المنصة الشاملة",
+      "package_name_en": "Enterprise System",
+      "badge": "للشركات الكبرى",
+      "price": {
+        "base": 4000,
+        "currency": "USD",
+        "note": "يبدأ من – يشمل هندسة بنية تحتية سحابية كاملة",
+        "variable": true,
+        "range_max": 10000
+      },
+      "delivery_days": 60,
+      "revisions": "غير محدودة حتى التطابق",
+      "roi": "نظام Enterprise قوي، آمن بنسبة 100%، مستعد لاستقبال ملايين الزيارات دون توقف",
+      "features": {
+        "general": [
+          "بناء النظام حسب متطلبات الأعمال الدقيقة",
+          "تحليل النظم (System Architecture) وتخطيط المسارات",
+          "لوحات تحكم متعددة (Admin, Seller, Customer)",
+          "تكامل مع أنظمة الـ ERP والـ CRM الداخلية",
+          "دعم هندسي لمدة 6 أشهر مع اتفاقية صيانة",
+          "تسليم كود المصدر كامل مع الملكية"
+        ],
+        "technology_stack": [
+          "Microservices أو Monolithic محسّن (Next.js & Python/Node)",
+          "قواعد بيانات موزعة (Distributed Databases)",
+          "WebSockets للإشعارات الفورية (Real-time)",
+          "محرك بحث متقدم جدًا (Elasticsearch / Algolia)",
+          "Data Pipelines لتحليل مسارات المستخدمين"
+        ],
+        "security_cloud": [
+          "بنية تحتية على AWS السحابية (Auto-scaling)",
+          "DDoS Protection 4 مع WAF (Web Application Firewall)",
+          "تشفير البيانات الحساسة من الطرفين P2P Encryption",
+          "امتثال كامل لقوانين الخصوصية GDPR",
+          "اختبار اختراق (Penetration Testing) وتأمين ثغرات",
+          "Wildcard SSL Certificates",
+          "Continuous Integration / Continuous Deployment (CI/CD)",
+          "نسخ احتياطي لحظي (Real-time Replication)",
+          "مراقبة السيرفر 24/7 مع إشعارات للطوارئ"
+        ]
+      }
+    }
+  ],
+  "add_ons": [
+    { "name": "تكامل مع أدوات الذكاء الاصطناعي", "price": 500, "unit": "USD" },
+    { "name": "تطوير لوحة تحكم مخصصة إضافية", "price": 400, "unit": "USD" },
+    { "name": "تجهيز تطبيق PWA مدمج", "price": 300, "unit": "USD" },
+    { "name": "خطة دمج وحماية السيرفر", "price": 200, "unit": "USD/شهر" }
+  ],
+  "publishing_keywords": [
+    "تطوير برمجي", "Nodejs", "Reactjs", "منصة SaaS", "موقع متكامل",
+    "تطوير الويب", "Full_Stack", "برمجة شاملة", "حماية سيرفرات",
+    "منظومة أعمال", "قواعد بيانات", "متجر الكتروني"
+  ]
+}

@@ -1,0 +1,929 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mark",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1376,
+        2560
+      ],
+      "id": "e20e81f8-20f4-4514-bc47-ce158672e560",
+      "name": "Webhook2",
+      "webhookId": "21957c81-49e4-480d-a035-78cd3711547c"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            },
+            {
+              "triggerAtHour": 14
+            },
+            {
+              "triggerAtHour": 20
+            }
+          ]
+        }
+      },
+      "id": "422ad41d-6dfd-4e1e-8675-29990b75cf8b",
+      "name": "Schedule Trigger2",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1376,
+        2768
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://djamelrebiai.github.io/data/service_01_frontend_templates.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1104,
+        2432
+      ],
+      "id": "43ed4909-df8a-4687-b954-6bfb7a9fc01d",
+      "name": "frontend_templates2"
+    },
+    {
+      "parameters": {
+        "url": "https://djamelrebiai.github.io/data/service_02_frontend_custom.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1072,
+        2560
+      ],
+      "id": "774b6bdb-a9ad-448b-a066-0cf192887f93",
+      "name": "frontend_custom.2"
+    },
+    {
+      "parameters": {
+        "url": "https://djamelrebiai.github.io/data/service_03_fullstack.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1072,
+        2720
+      ],
+      "id": "67e4153d-059d-4535-aba9-ab87616ab994",
+      "name": "fullstack2"
+    },
+    {
+      "parameters": {
+        "url": "https://djamelrebiai.github.io/data/service_04_ai_business_solutions.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1072,
+        2880
+      ],
+      "id": "cbafae72-8d78-4c0c-895d-4c4b90226a45",
+      "name": "ai_business_solutions2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Prepare Data: Combine 4 services + Static Data Stats + Config ======\n\n// Get services from the 4 HTTP nodes\nconst srv01 = $('frontend_templates2').first().json;\nconst srv02 = $('frontend_custom.2').first().json;\nconst srv03 = $('fullstack2').first().json;\nconst srv04 = $('ai_business_solutions2').first().json;\nconst services = [srv01, srv02, srv03, srv04];\n\n// Load Stats from n8n Static Data (auto-persists between executions)\nconst staticData = $getWorkflowStaticData('global');\nif (!staticData.stats) {\n  staticData.stats = {\n    total_posts: 0,\n    service_rotation_index: 0,\n    style_rotation_index: 0,\n    package_rotation_index: 0,\n    last_20_posts: [],\n    feature_usage: {}\n  };\n}\n\n// Embedded config (no external file needed)\nconst config = {\n  post_styles: [\n    {\n      id: 'success_story',\n      name_ar: 'قصة نجاح',\n      prompt_instruction: 'اكتب المنشور كقصة نجاح لزبون استخدم خدمتنا. ابدأ بمشكلة كان يعانيها، ثم كيف حلّيناها، ثم النتيجة المبهرة. استخدم أسلوب حواري ومشوّق.'\n    },\n    {\n      id: 'problem_solution',\n      name_ar: 'مشكلة وحل',\n      prompt_instruction: 'ابدأ بطرح مشكلة شائعة يعانيها أصحاب الأعمال، ثم اعرض الحل الذي نقدمه مع الميزات التقنية. اجعل القارئ يشعر بأنه يحتاج هذا الحل فوراً.'\n    },\n    {\n      id: 'comparison',\n      name_ar: 'مقارنة: بدون خدمتنا vs مع خدمتنا',\n      prompt_instruction: 'اكتب المنشور كمقارنة بين الحالة بدون خدمتنا (المشاكل، التكلفة العالية، الوقت الضائع) والحالة مع خدمتنا (الحلول، التوفير، السرعة). استخدم إيموجي ❌ و ✅.'\n    },\n    {\n      id: 'stats_facts',\n      name_ar: 'أرقام وإحصائيات',\n      prompt_instruction: 'ابدأ بأرقام وإحصائيات مقنعة عن المجال. ثم اربط هذه الأرقام بخدمتنا وكيف تساعد الزبون. اجعل الأرقام بارزة ومؤثرة.'\n    }\n  ],\n  ai_instructions: {\n    general_rules: [\n      'اكتب بالعربية الفصحى البسيطة مع لمسة دارجة جزائرية خفيفة',\n      'طول المنشور: 150-300 كلمة',\n      'استخدم إيموجي بشكل مناسب (3-6 إيموجي)',\n      'اختم المنشور بدعوة واضحة للتواصل (CTA)',\n      'اذكر السعر بطريقة جذابة (يبدأ من...)',\n      'لا تذكر اسم المنافسين',\n      'استخدم 3-5 هاشتاقات مناسبة في النهاية'\n    ],\n    brand_voice: 'أسلوب احترافي ومحترم لكن قريب من الناس، يجمع بين الخبرة التقنية والبساطة في الشرح'\n  },\n  facebook: {\n    page_id: 'YOUR_PAGE_ID'\n  }\n};\n\nreturn [{ json: { services, stats: staticData.stats, config } }];"
+      },
+      "id": "d5bb4079-59ef-4e9f-8923-e458924c9947",
+      "name": "Prepare Data1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -752,
+        2656
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== SMART SELECTOR — Brain of the system ======\nconst { services, config, stats } = $input.first().json;\n\n// ---- 1. Choose Service (rotation) ----\nconst serviceOrder = ['SRV-01', 'SRV-02', 'SRV-03', 'SRV-04'];\nconst srvIndex = stats.service_rotation_index % serviceOrder.length;\nconst targetServiceId = serviceOrder[srvIndex];\nlet selectedService = services.find(s => s.service_id === targetServiceId);\nif (!selectedService) selectedService = services[0];\n\n// ---- 2. Choose Package (rotation through tiers) ----\nlet packages;\nlet solutionName = null;\nif (selectedService.packages) {\n  packages = selectedService.packages;\n} else if (selectedService.solutions) {\n  // SRV-04 has solutions with sub-packages\n  const solIndex = stats.package_rotation_index % selectedService.solutions.length;\n  const selectedSolution = selectedService.solutions[solIndex];\n  solutionName = selectedSolution.solution_name;\n  packages = selectedSolution.packages;\n}\n\nconst pkgIndex = stats.package_rotation_index % packages.length;\nconst selectedPackage = packages[pkgIndex];\n\n// ---- 3. Choose Features (avoid last 20 posts) ----\nconst recentFeatures = new Set();\nfor (const post of (stats.last_20_posts || [])) {\n  if (post.features) post.features.forEach(f => recentFeatures.add(f));\n}\n\nconst allFeatures = [];\nfor (const key of Object.keys(selectedPackage.features || {})) {\n  const feats = selectedPackage.features[key];\n  if (Array.isArray(feats)) {\n    feats.forEach(f => {\n      if (typeof f === 'string' && !f.startsWith('كل ')) {\n        allFeatures.push({ text: f, category: key });\n      }\n    });\n  }\n}\n\nlet available = allFeatures.filter(f => !recentFeatures.has(f.text));\nif (available.length < 3) available = allFeatures;\n\nconst shuffled = available.sort(() => Math.random() - 0.5);\nconst count = Math.floor(Math.random() * 3) + 3;\nconst selectedFeatures = shuffled.slice(0, count);\n\n// ---- 4. Choose Post Style (rotation) ----\nconst styles = config.post_styles;\nconst styleIndex = stats.style_rotation_index % styles.length;\nconst selectedStyle = styles[styleIndex];\n\n// ---- 5. Keywords ----\nconst keywords = (selectedService.publishing_keywords || []).sort(() => Math.random() - 0.5).slice(0, 4);\n\n// ---- 6. Build prompt text for AI ----\nconst svcName = selectedService.service_name;\nconst svcDesc = selectedService.description;\nconst pkgName = selectedPackage.package_name;\nconst pkgNameEn = selectedPackage.package_name_en || '';\nconst pkgBadge = selectedPackage.badge || '';\nconst price = selectedPackage.price;\nconst delivery = selectedPackage.delivery_days;\nconst audience = (selectedService.target_audience || []).join(', ');\n\nconst featuresText = selectedFeatures.map((f, i) => (i + 1) + '. ' + f.text).join('\\n');\n\nconst userPrompt = `اكتب منشور فايسبوك احترافي.\n\nالخدمة: ${svcName}\nالوصف: ${svcDesc}${solutionName ? '\\nالحل: ' + solutionName : ''}\nالباقة: ${pkgName} (${pkgNameEn})${pkgBadge ? ' — ' + pkgBadge : ''}\nالسعر: يبدأ من ${price.base} ${price.currency}\nالتسليم: ${delivery} يوم عمل\n\nالميزات المختارة للتركيز عليها:\n${featuresText}\n\nأسلوب الكتابة: ${selectedStyle.name_ar}\nالتعليمات: ${selectedStyle.prompt_instruction}\n\nالكلمات المفتاحية (أدرجها بشكل طبيعي): ${keywords.join(', ')}\n\nالجمهور المستهدف: ${audience}`;\n\nconst systemPrompt = `أنت خبير تسويق رقمي متخصص في كتابة منشورات فايسبوك بالعربية. تكتب محتوى يجذب أصحاب الأعمال والشركات. ${config.ai_instructions.brand_voice}. القواعد: ${config.ai_instructions.general_rules.join(' | ')}`;\n\nreturn [{ json: {\n  selected_service: {\n    id: selectedService.service_id,\n    name: svcName,\n    name_en: selectedService.service_name_en,\n    description: svcDesc,\n    target_audience: selectedService.target_audience,\n    solution_name: solutionName\n  },\n  selected_package: {\n    id: selectedPackage.package_id,\n    name: pkgName,\n    name_en: pkgNameEn,\n    badge: pkgBadge,\n    price: price,\n    delivery_days: delivery\n  },\n  selected_features: selectedFeatures.map(f => f.text),\n  post_style: selectedStyle,\n  keywords,\n  user_prompt: userPrompt,\n  system_prompt: systemPrompt,\n  new_rotation: {\n    service_rotation_index: srvIndex + 1,\n    style_rotation_index: styleIndex + 1,\n    package_rotation_index: pkgIndex + 1\n  },\n  config\n} }];"
+      },
+      "id": "bf3f1fd3-dc49-458b-a85d-7512550718c5",
+      "name": "Smart Selector2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -512,
+        2656
+      ]
+    },
+    {
+      "parameters": {
+        "model": "qwen-3-32b",
+        "prompt": "={{ $json.user_prompt }}",
+        "systemMessage": "={{ $json.system_prompt }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-cerebras-api.cerebrasChatModel",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        2656
+      ],
+      "id": "12eaf1d5-eae7-4927-a5fd-b2ff6bb17e37",
+      "name": "Cerebras Chat Model2",
+      "credentials": {
+        "cerebrasApi": {
+          "id": "EK9WASPWVQB7UYoY",
+          "name": "Cerebras account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Extract Draft: Normalize Cerebras output ======\n// Community nodes may output in different fields, this handles all cases\nconst input = $input.first().json;\nconst draft = input.response || input.text || input.output || input.content ||\n              input.message || input.result ||\n              (input.choices && input.choices[0] && input.choices[0].message && input.choices[0].message.content) ||\n              JSON.stringify(input);\n\nreturn [{ json: { draft } }];"
+      },
+      "id": "9c8b20cf-87f2-4e46-98b3-f41ea32329f9",
+      "name": "Extract Draft1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -32,
+        2656
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "openai/gpt-4o",
+        "messages": {
+          "message": [
+            {
+              "prompt": "={{ 'راجع وحسّن هذا المنشور:\\n\\n' + $json.draft }}"
+            },
+            {
+              "prompt": "أنت مراجع محتوى محترف. مهمتك مراجعة وتحسين منشور فايسبوك. حافظ على نفس الفكرة والأسلوب لكن:\n1. حسّن الصياغة والانسيابية\n2. تأكد من عدم وجود أخطاء لغوية\n3. أضف أو حسّن الإيموجي (3-6 إيموجي)\n4. تأكد أن CTA واضح في النهاية\n5. أضف 3-5 هاشتاقات في السطر الأخير\n6. اجعل المنشور بين 150-300 كلمة\n\nأعد المنشور النهائي فقط بدون ملاحظات أو شرح.",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {
+          "max_tokens": [
+            {
+              "value": 1200
+            }
+          ],
+          "temperature": [
+            {
+              "value": 0.5
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-gh-models.ghModelsNode",
+      "typeVersion": 1,
+      "position": [
+        192,
+        2656
+      ],
+      "id": "5606f606-23c4-4d7d-b268-ab386b6ec925",
+      "name": "GH Models Node3",
+      "credentials": {
+        "ghModelsNodeCredentialsApi": {
+          "id": "hZgo8BnXo7vtUSXV",
+          "name": "Github Models Credentials account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Extract Final Post: Normalize GH Models output ======\nconst input = $input.first().json;\nconst final_post = input.response || input.text || input.output || input.content ||\n                   input.message || input.result ||\n                   (input.choices && input.choices[0] && input.choices[0].message && input.choices[0].message.content) ||\n                   JSON.stringify(input);\n\nreturn [{ json: { final_post } }];"
+      },
+      "id": "8f2c0681-f8d5-4f87-a33b-4e00ff85def2",
+      "name": "Extract Final Post1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        2656
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://graph.facebook.com/v21.0/' + $('Prepare Data1').first().json.config.facebook.page_id + '/feed' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ message: $json.final_post }) }}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "ed66fdb4-3fb3-48bd-a09b-fc8e20941597",
+      "name": "Publish to Facebook2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        640,
+        2656
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Update Stats in n8n Static Data ======\nconst staticData = $getWorkflowStaticData('global');\nconst selector = $('Smart Selector2').first().json;\nconst fbResponse = $input.first().json;\n\nif (!staticData.stats) {\n  staticData.stats = {\n    total_posts: 0,\n    service_rotation_index: 0,\n    style_rotation_index: 0,\n    package_rotation_index: 0,\n    last_20_posts: [],\n    feature_usage: {}\n  };\n}\n\nconst stats = staticData.stats;\nstats.total_posts += 1;\n\n// Update rotations\nstats.service_rotation_index = selector.new_rotation.service_rotation_index;\nstats.style_rotation_index = selector.new_rotation.style_rotation_index;\nstats.package_rotation_index = selector.new_rotation.package_rotation_index;\n\n// Add to history (keep last 20)\nstats.last_20_posts.unshift({\n  post_number: stats.total_posts,\n  service_id: selector.selected_service.id,\n  service_name: selector.selected_service.name,\n  package_id: selector.selected_package.id,\n  package_name: selector.selected_package.name,\n  features: selector.selected_features,\n  style: selector.post_style.id,\n  facebook_post_id: fbResponse.id || fbResponse.final_post ? 'test' : 'unknown',\n  published_at: new Date().toISOString()\n});\nif (stats.last_20_posts.length > 20) {\n  stats.last_20_posts = stats.last_20_posts.slice(0, 20);\n}\n\n// Update feature usage\nfor (const f of selector.selected_features) {\n  stats.feature_usage[f] = (stats.feature_usage[f] || 0) + 1;\n}\n\nstats.last_updated = new Date().toISOString();\n// Static Data auto-saves — no fs.writeFile needed!\n\nreturn [{ json: {\n  status: 'success',\n  post_number: stats.total_posts,\n  service: selector.selected_service.name,\n  package_name: selector.selected_package.name,\n  features_count: selector.selected_features.length,\n  style: selector.post_style.name_ar,\n  facebook_post_id: fbResponse.id || 'test'\n} }];"
+      },
+      "id": "d7505106-12a5-45fd-bb9c-23ed7263478b",
+      "name": "Update Stats2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        848,
+        2656
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Log Result ======\nconst result = $input.first().json;\nconst timestamp = new Date().toISOString();\n\nreturn [{ json: {\n  ...result,\n  timestamp,\n  log: `✅ Post #${result.post_number} | ${result.service} | ${result.package_name} | ${result.style}`\n} }];"
+      },
+      "id": "075e7d95-3440-422d-9894-f999504796d2",
+      "name": "Log Result2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        2656
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mark",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -304,
+        3216
+      ],
+      "id": "919a5db0-6a10-4d8e-af9c-f05093ff08d0",
+      "name": "Webhook",
+      "webhookId": "21957c81-49e4-480d-a035-78cd3711547c"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            },
+            {
+              "triggerAtHour": 14
+            },
+            {
+              "triggerAtHour": 20
+            }
+          ]
+        }
+      },
+      "id": "5c00f286-69e3-4453-b796-ad43b56e3fd1",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -304,
+        3424
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://djamelrebiai.github.io/data/service_01_frontend_templates.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -48,
+        3216
+      ],
+      "id": "f23c79c1-b43d-42bc-9775-30b2040e3eef",
+      "name": "Fetch Templates"
+    },
+    {
+      "parameters": {
+        "url": "https://djamelrebiai.github.io/data/service_02_frontend_custom.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        176,
+        3216
+      ],
+      "id": "2a889de9-3cb3-44fc-ac72-f2708a955ac4",
+      "name": "Fetch Custom"
+    },
+    {
+      "parameters": {
+        "url": "https://djamelrebiai.github.io/data/service_03_fullstack.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        400,
+        3216
+      ],
+      "id": "43f1a1f2-7b3a-4b58-9a0f-d3e56ea8e029",
+      "name": "Fetch Fullstack"
+    },
+    {
+      "parameters": {
+        "url": "https://djamelrebiai.github.io/data/service_04_ai_business_solutions.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        3216
+      ],
+      "id": "68baef80-e496-4f94-9fb6-37b6067359de",
+      "name": "Fetch AI Solutions"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Prepare Data: Combine 4 services + Static Data + Config ======\n// Sequential chain guarantees all HTTP nodes have completed\nconst srv01 = $('Fetch Templates').first().json;\nconst srv02 = $('Fetch Custom').first().json;\nconst srv03 = $('Fetch Fullstack').first().json;\nconst srv04 = $('Fetch AI Solutions').first().json;\nconst services = [srv01, srv02, srv03, srv04];\n\n// Load Stats from n8n Static Data (auto-persists)\nconst staticData = $getWorkflowStaticData('global');\nif (!staticData.stats) {\n  staticData.stats = {\n    total_posts: 0,\n    service_rotation_index: 0,\n    style_rotation_index: 0,\n    package_rotation_index: 0,\n    last_20_posts: [],\n    feature_usage: {}\n  };\n}\n\nconst config = {\n  post_styles: [\n    { id: 'success_story', name_ar: 'قصة نجاح', prompt_instruction: 'اكتب المنشور كقصة نجاح لزبون استخدم خدمتنا. ابدأ بمشكلة كان يعانيها، ثم كيف حلّيناها، ثم النتيجة المبهرة. استخدم أسلوب حواري ومشوّق.' },\n    { id: 'problem_solution', name_ar: 'مشكلة وحل', prompt_instruction: 'ابدأ بطرح مشكلة شائعة يعانيها أصحاب الأعمال، ثم اعرض الحل الذي نقدمه مع الميزات التقنية. اجعل القارئ يشعر بأنه يحتاج هذا الحل فوراً.' },\n    { id: 'comparison', name_ar: 'مقارنة: بدون خدمتنا vs مع خدمتنا', prompt_instruction: 'اكتب كمقارنة بين الحالة بدون خدمتنا والحالة مع خدمتنا. استخدم إيموجي ❌ و ✅.' },\n    { id: 'stats_facts', name_ar: 'أرقام وإحصائيات', prompt_instruction: 'ابدأ بأرقام وإحصائيات مقنعة عن المجال. ثم اربطها بخدمتنا. اجعل الأرقام بارزة ومؤثرة.' }\n  ],\n  ai_instructions: {\n    general_rules: ['اكتب بالعربية الفصحى البسيطة مع لمسة دارجة جزائرية خفيفة', 'طول المنشور: 150-300 كلمة', 'استخدم إيموجي (3-6)', 'اختم بدعوة للتواصل CTA', 'اذكر السعر (يبدأ من...)', 'لا تذكر المنافسين', '3-5 هاشتاقات في النهاية'],\n    brand_voice: 'أسلوب احترافي ومحترم لكن قريب من الناس، يجمع بين الخبرة التقنية والبساطة في الشرح'\n  },\n  facebook: { page_id: 'YOUR_PAGE_ID' }\n};\n\nreturn [{ json: { services, stats: staticData.stats, config } }];"
+      },
+      "id": "782bd81c-1a7c-4070-91f7-7346c6fb60f3",
+      "name": "Prepare Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        3216
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== SMART SELECTOR — Brain of the system ======\nconst { services, config, stats } = $input.first().json;\n\n// 1. Choose Service (rotation)\nconst serviceOrder = ['SRV-01', 'SRV-02', 'SRV-03', 'SRV-04'];\nconst srvIndex = stats.service_rotation_index % serviceOrder.length;\nlet selectedService = services.find(s => s.service_id === serviceOrder[srvIndex]) || services[0];\n\n// 2. Choose Package (rotation)\nlet packages, solutionName = null;\nif (selectedService.packages) {\n  packages = selectedService.packages;\n} else if (selectedService.solutions) {\n  const solIndex = stats.package_rotation_index % selectedService.solutions.length;\n  const sol = selectedService.solutions[solIndex];\n  solutionName = sol.solution_name;\n  packages = sol.packages;\n}\nconst pkgIndex = stats.package_rotation_index % packages.length;\nconst selectedPackage = packages[pkgIndex];\n\n// 3. Choose Features (avoid last 20)\nconst recentFeatures = new Set();\nfor (const post of (stats.last_20_posts || [])) {\n  if (post.features) post.features.forEach(f => recentFeatures.add(f));\n}\nconst allFeatures = [];\nfor (const key of Object.keys(selectedPackage.features || {})) {\n  const feats = selectedPackage.features[key];\n  if (Array.isArray(feats)) feats.forEach(f => {\n    if (typeof f === 'string' && !f.startsWith('كل ')) allFeatures.push({ text: f, category: key });\n  });\n}\nlet available = allFeatures.filter(f => !recentFeatures.has(f.text));\nif (available.length < 3) available = allFeatures;\nconst shuffled = available.sort(() => Math.random() - 0.5);\nconst selectedFeatures = shuffled.slice(0, Math.floor(Math.random() * 3) + 3);\n\n// 4. Post Style (rotation)\nconst styleIndex = stats.style_rotation_index % config.post_styles.length;\nconst selectedStyle = config.post_styles[styleIndex];\n\n// 5. Keywords\nconst keywords = (selectedService.publishing_keywords || []).sort(() => Math.random() - 0.5).slice(0, 4);\n\n// 6. Build prompts\nconst svcName = selectedService.service_name;\nconst svcDesc = selectedService.description;\nconst pkgName = selectedPackage.package_name;\nconst pkgEn = selectedPackage.package_name_en || '';\nconst pkgBadge = selectedPackage.badge || '';\nconst price = selectedPackage.price;\nconst delivery = selectedPackage.delivery_days;\nconst audience = (selectedService.target_audience || []).join(', ');\nconst featText = selectedFeatures.map((f, i) => (i+1) + '. ' + f.text).join('\\n');\n\nconst user_prompt = `اكتب منشور فايسبوك احترافي.\\n\\nالخدمة: ${svcName}\\nالوصف: ${svcDesc}${solutionName ? '\\nالحل: ' + solutionName : ''}\\nالباقة: ${pkgName} (${pkgEn})${pkgBadge ? ' — ' + pkgBadge : ''}\\nالسعر: يبدأ من ${price.base} ${price.currency}\\nالتسليم: ${delivery} يوم عمل\\n\\nالميزات المختارة:\\n${featText}\\n\\nأسلوب: ${selectedStyle.name_ar}\\nتعليمات: ${selectedStyle.prompt_instruction}\\n\\nكلمات مفتاحية: ${keywords.join(', ')}\\n\\nالجمهور: ${audience}`;\n\nconst system_prompt = `أنت خبير تسويق رقمي متخصص في كتابة منشورات فايسبوك بالعربية. ${config.ai_instructions.brand_voice}. القواعد: ${config.ai_instructions.general_rules.join(' | ')}`;\n\nreturn [{ json: {\n  selected_service: { id: selectedService.service_id, name: svcName, name_en: selectedService.service_name_en, description: svcDesc, target_audience: selectedService.target_audience, solution_name: solutionName },\n  selected_package: { id: selectedPackage.package_id, name: pkgName, name_en: pkgEn, badge: pkgBadge, price, delivery_days: delivery },\n  all_packages: packages,\n  selected_features: selectedFeatures.map(f => f.text),\n  post_style: selectedStyle,\n  keywords,\n  user_prompt,\n  system_prompt,\n  new_rotation: { service_rotation_index: srvIndex + 1, style_rotation_index: styleIndex + 1, package_rotation_index: pkgIndex + 1 },\n  config\n} }];"
+      },
+      "id": "a39ca649-f415-4fd4-9929-9e7471f11e2c",
+      "name": "Smart Selector",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        3216
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Generate HTML Comparison Table for the selected service ======\nconst selector = $input.first().json;\nconst packages = selector.all_packages;\nconst svcName = selector.selected_service.name;\nconst svcDesc = selector.selected_service.description;\n\n// Random themes for variation\nconst themes = [\n  { bg1: '#0f0c29', bg2: '#302b63', bg3: '#24243e', hl: '#00d4aa', cardBg: 'rgba(255,255,255,0.05)', midBg: 'rgba(0,212,170,0.08)' }, // Dark Teal\n  { bg1: '#141e30', bg2: '#243b55', bg3: '#141e30', hl: '#ffa700', cardBg: 'rgba(255,255,255,0.05)', midBg: 'rgba(255,167,0,0.08)' }, // Deep Blue & Gold\n  { bg1: '#232526', bg2: '#414345', bg3: '#232526', hl: '#ff4b2b', cardBg: 'rgba(255,255,255,0.05)', midBg: 'rgba(255,75,43,0.08)' }, // Charcoal & Red\n  { bg1: '#111', bg2: '#222', bg3: '#111', hl: '#8a2be2', cardBg: 'rgba(255,255,255,0.03)', midBg: 'rgba(138,43,226,0.08)' }, // Midnight Purple\n  { bg1: '#0b132b', bg2: '#1c2541', bg3: '#0b132b', hl: '#5bc0be', cardBg: 'rgba(255,255,255,0.05)', midBg: 'rgba(91,192,190,0.08)' } // Cyber Ocean\n];\nconst randFactor = selector.new_rotation.service_rotation_index + selector.new_rotation.package_rotation_index + selector.new_rotation.style_rotation_index;\nconst theme = themes[randFactor % themes.length];\n\nfunction getFeatures(pkg) {\n  const feats = pkg.features || {};\n  let techFeats = [];\n  if (feats.technical) techFeats = feats.technical;\n  else if (feats.technical_security) techFeats = feats.technical_security;\n  else if (feats.technology_stack) techFeats = feats.technology_stack;\n  else if (feats.backend_features) techFeats = feats.backend_features;\n  else if (feats.security_performance) techFeats = feats.security_performance;\n  \n  let genFeats = [];\n  if (feats.general) genFeats = feats.general;\n  else if (feats.business_features) genFeats = feats.business_features;\n\n  const general = (genFeats.filter(f => typeof f === 'string' && !f.startsWith('كل ')).sort(() => Math.random() - 0.5)).slice(0, 5);\n  const technical = (techFeats.filter(f => typeof f === 'string' && !f.startsWith('كل ')).sort(() => Math.random() - 0.5)).slice(0, 3);\n  const notIncl = (feats.not_included || []).slice(0, 2);\n  \n  return { general, technical, notIncl };\n}\n\nlet cardsHtml = '';\npackages.forEach((pkg, idx) => {\n  const isMid = idx === 1 || (packages.length === 2 && idx === 1);\n  const border = isMid ? theme.hl : 'rgba(255,255,255,0.12)';\n  const bg = isMid ? theme.midBg : theme.cardBg;\n  const scale = isMid ? 'transform:scale(1.04);z-index:2;box-shadow: 0 15px 35px rgba(0,0,0,0.3);' : 'opacity: 0.95;';\n  const { general, technical, notIncl } = getFeatures(pkg);\n  const rev = typeof pkg.revisions === 'number' ? pkg.revisions + ' مراجعات' : (pkg.revisions || '');\n\n  cardsHtml += `<div style=\"flex:1;background:${bg};border-radius:20px;padding:30px 20px;border:2px solid ${border};${scale}position:relative;\">`;\n  if (pkg.badge) cardsHtml += `<div style=\"position:absolute;top:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;background:${theme.hl};color:#000;padding:4px 16px;border-radius:12px;font-size:12px;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,0.2);\">${pkg.badge}</div>`;\n  else cardsHtml += `<div style=\"height:12px;\"></div>`;\n  \n  cardsHtml += `<h3 style=\"text-align:center;margin:15px 0 4px;font-size:20px;color:#fff;\">${pkg.package_name}</h3>`;\n  cardsHtml += `<p style=\"text-align:center;color:#999;font-size:12px;margin:0 0 16px;\">${pkg.package_name_en || ''}</p>`;\n  cardsHtml += `<div style=\"text-align:center;margin-bottom:12px;\"><span style=\"font-size:42px;font-weight:900;color:${theme.hl};\">$${pkg.price.base}+</span></div>`;\n  cardsHtml += `<div style=\"text-align:center;font-size:12px;color:#bbb;margin-bottom:16px;\">⏱ التنفيذ: ${pkg.delivery_days} أيام | 🔄 ${rev}</div>`;\n  cardsHtml += '<hr style=\"border:none;border-top:1px dashed rgba(255,255,255,0.15);margin:16px 0;\">';\n  \n  general.forEach(f => { cardsHtml += `<p style=\"font-size:13px;line-height:1.5;margin:8px 0;color:#eee;\">✅ ${f}</p>`; });\n  technical.forEach(f => { cardsHtml += `<p style=\"font-size:13px;line-height:1.5;margin:8px 0;color:${theme.hl};opacity:0.9;\">⚙️ ${f}</p>`; });\n  notIncl.forEach(f => { cardsHtml += `<p style=\"font-size:13px;line-height:1.5;margin:8px 0;color:#666;text-decoration:line-through;\">❌ ${f}</p>`; });\n  cardsHtml += '</div>';\n});\n\nconst html = `<div style=\"font-family:'Segoe UI',Tahoma,sans-serif;direction:rtl;width:1080px;min-height:500px;padding:50px 60px;background:linear-gradient(135deg,${theme.bg1} 0%,${theme.bg2} 50%,${theme.bg3} 100%);color:#fff;border-radius:24px;\">\n  <div style=\"text-align:center;margin-bottom:40px;\">\n    <h1 style=\"font-size:34px;margin:0 0 12px;color:${theme.hl};text-shadow: 0 2px 4px rgba(0,0,0,0.3);\">${svcName}</h1>\n    <p style=\"color:#aaa;font-size:16px;max-width:800px;margin:0 auto;line-height:1.6;\">${svcDesc}</p>\n  </div>\n  <div style=\"display:flex;gap:20px;align-items:center;\">${cardsHtml}</div>\n  <div style=\"text-align:center;margin-top:40px;\"><p style=\"color:#ddd;font-size:15px;font-weight:bold;background:rgba(0,0,0,0.2);display:inline-block;padding:10px 24px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);\">📩 تواصل معنا الآن للحصول على عرض تقني وتجاري مخصص لمشروعك</p></div>\n</div>`;\n\nreturn [{ json: { ...selector, table_html: html } }];"
+      },
+      "id": "6e1e686a-0fb0-4461-a157-fad0ed4f5b73",
+      "name": "Generate Table HTML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        3216
+      ]
+    },
+    {
+      "parameters": {
+        "model": "qwen-3-32b",
+        "prompt": "={{ $json.user_prompt }}",
+        "systemMessage": "={{ $json.system_prompt }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-cerebras-api.cerebrasChatModel",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        3216
+      ],
+      "id": "e81a7fe5-afd5-4be5-8a53-2aaf98f1aacc",
+      "name": "Cerebras Chat Model",
+      "credentials": {
+        "cerebrasApi": {
+          "id": "EK9WASPWVQB7UYoY",
+          "name": "Cerebras account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Extract Draft: Normalize Cerebras output ======\nconst input = $input.first().json;\nconst draft = input.response || input.text || input.output || input.content || input.message || input.result || (input.choices && input.choices[0] && input.choices[0].message && input.choices[0].message.content) || JSON.stringify(input);\nreturn [{ json: { draft } }];"
+      },
+      "id": "478b05c0-9a5b-4355-919a-96b7cb570f40",
+      "name": "Extract Draft",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2064,
+        3216
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "openai/gpt-4o",
+        "messages": {
+          "message": [
+            {
+              "prompt": "={{ 'راجع وحسّن هذا المنشور:\\n\\n' + $json.draft }}"
+            },
+            {
+              "prompt": "أنت مراجع محتوى محترف. مهمتك مراجعة وتحسين منشور فايسبوك. حافظ على نفس الفكرة والأسلوب لكن:\n1. حسّن الصياغة والانسيابية\n2. تأكد من عدم وجود أخطاء لغوية\n3. أضف أو حسّن الإيموجي (3-6 إيموجي)\n4. تأكد أن CTA واضح في النهاية\n5. أضف 3-5 هاشتاقات في السطر الأخير\n6. اجعل المنشور بين 150-300 كلمة\n\nأعد المنشور النهائي فقط بدون ملاحظات أو شرح.",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {
+          "max_tokens": [
+            {
+              "value": 1200
+            }
+          ],
+          "temperature": [
+            {
+              "value": 0.5
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-gh-models.ghModelsNode",
+      "typeVersion": 1,
+      "position": [
+        2304,
+        3216
+      ],
+      "id": "236ef56f-8880-4455-b337-150ca6e423aa",
+      "name": "GH Models Review",
+      "credentials": {
+        "ghModelsNodeCredentialsApi": {
+          "id": "hZgo8BnXo7vtUSXV",
+          "name": "Github Models Credentials account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Extract Final Post: Normalize GH Models output ======\nconst input = $input.first().json;\nconst final_post = input.response || input.text || input.output || input.content || input.message || input.result || (input.choices && input.choices[0] && input.choices[0].message && input.choices[0].message.content) || JSON.stringify(input);\nreturn [{ json: { final_post } }];"
+      },
+      "id": "d5f776be-e971-4250-afa4-12ee4c4d5c0d",
+      "name": "Extract Final Post",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2544,
+        3216
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://graph.facebook.com/v21.0/' + $('Prepare Data').first().json.config.facebook.page_id + '/feed' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ message: $json.final_post }) }}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "ed4f9bbd-d679-4644-9336-70a3e41c1980",
+      "name": "Publish to Facebook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2784,
+        3216
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// ====== Update Stats in Static Data ======\nconst staticData = $getWorkflowStaticData('global');\nconst selector = $('Smart Selector').first().json;\nconst fbResponse = $input.first().json;\n\nif (!staticData.stats) {\n  staticData.stats = { total_posts: 0, service_rotation_index: 0, style_rotation_index: 0, package_rotation_index: 0, last_20_posts: [], feature_usage: {} };\n}\nconst stats = staticData.stats;\nstats.total_posts += 1;\nstats.service_rotation_index = selector.new_rotation.service_rotation_index;\nstats.style_rotation_index = selector.new_rotation.style_rotation_index;\nstats.package_rotation_index = selector.new_rotation.package_rotation_index;\n\nstats.last_20_posts.unshift({\n  post_number: stats.total_posts,\n  service_id: selector.selected_service.id,\n  service_name: selector.selected_service.name,\n  package_id: selector.selected_package.id,\n  package_name: selector.selected_package.name,\n  features: selector.selected_features,\n  style: selector.post_style.id,\n  published_at: new Date().toISOString()\n});\nif (stats.last_20_posts.length > 20) stats.last_20_posts = stats.last_20_posts.slice(0, 20);\nfor (const f of selector.selected_features) stats.feature_usage[f] = (stats.feature_usage[f] || 0) + 1;\nstats.last_updated = new Date().toISOString();\n\nreturn [{ json: { status: 'success', post_number: stats.total_posts, service: selector.selected_service.name, package_name: selector.selected_package.name, features_count: selector.selected_features.length, style: selector.post_style.name_ar } }];"
+      },
+      "id": "0372d72f-33ee-49e2-bc14-8c7790b29661",
+      "name": "Update Stats",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3024,
+        3216
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = $input.first().json;\nreturn [{ json: { ...result, timestamp: new Date().toISOString(), log: `✅ Post #${result.post_number} | ${result.service} | ${result.package_name} | ${result.style}` } }];"
+      },
+      "id": "b3a02000-1048-4729-9440-206cdf54f99e",
+      "name": "Log Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3264,
+        3216
+      ]
+    },
+    {
+      "parameters": {
+        "html_content": "={{ $json.table_html }}"
+      },
+      "type": "n8n-nodes-htmlcsstoimage.htmlCssToImage",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        3200
+      ],
+      "id": "28bd2b03-27dc-4075-a839-d1bfcb5f1602",
+      "name": "HTML/CSS to Image",
+      "credentials": {
+        "htmlcsstoimgApi": {
+          "id": "1g29pzeO99et31cf",
+          "name": "HTML to Image account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "frontend_templates2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "frontend_custom.2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "fullstack2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "ai_business_solutions2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "frontend_templates2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "frontend_custom.2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "fullstack2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "ai_business_solutions2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "frontend_templates2": {
+      "main": [
+        [
+          {
+            "node": "Prepare Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "frontend_custom.2": {
+      "main": [
+        [
+          {
+            "node": "Prepare Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fullstack2": {
+      "main": [
+        [
+          {
+            "node": "Prepare Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_business_solutions2": {
+      "main": [
+        [
+          {
+            "node": "Prepare Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Data1": {
+      "main": [
+        [
+          {
+            "node": "Smart Selector2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Smart Selector2": {
+      "main": [
+        [
+          {
+            "node": "Cerebras Chat Model2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cerebras Chat Model2": {
+      "main": [
+        [
+          {
+            "node": "Extract Draft1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Draft1": {
+      "main": [
+        [
+          {
+            "node": "GH Models Node3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GH Models Node3": {
+      "main": [
+        [
+          {
+            "node": "Extract Final Post1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Final Post1": {
+      "main": [
+        [
+          {
+            "node": "Publish to Facebook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish to Facebook2": {
+      "main": [
+        [
+          {
+            "node": "Update Stats2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Stats2": {
+      "main": [
+        [
+          {
+            "node": "Log Result2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Fetch Templates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Templates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Templates": {
+      "main": [
+        [
+          {
+            "node": "Fetch Custom",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Custom": {
+      "main": [
+        [
+          {
+            "node": "Fetch Fullstack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Fullstack": {
+      "main": [
+        [
+          {
+            "node": "Fetch AI Solutions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch AI Solutions": {
+      "main": [
+        [
+          {
+            "node": "Prepare Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Data": {
+      "main": [
+        [
+          {
+            "node": "Smart Selector",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Smart Selector": {
+      "main": [
+        [
+          {
+            "node": "Generate Table HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Table HTML": {
+      "main": [
+        [
+          {
+            "node": "HTML/CSS to Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cerebras Chat Model": {
+      "main": [
+        [
+          {
+            "node": "Extract Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Draft": {
+      "main": [
+        [
+          {
+            "node": "GH Models Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GH Models Review": {
+      "main": [
+        [
+          {
+            "node": "Extract Final Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Final Post": {
+      "main": [
+        [
+          {
+            "node": "Publish to Facebook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish to Facebook": {
+      "main": [
+        [
+          {
+            "node": "Update Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Stats": {
+      "main": [
+        [
+          {
+            "node": "Log Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML/CSS to Image": {
+      "main": [
+        [
+          {
+            "node": "Cerebras Chat Model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "482d5d667ad098e8e4a6a9dff138d8c448764dcb47a0b03027743fe9de2abbde"
+  }
+}

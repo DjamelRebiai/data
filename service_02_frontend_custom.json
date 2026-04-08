@@ -1,0 +1,226 @@
+{
+  "service_id": "SRV-02",
+  "service_name": "تطوير الواجهة الأمامية – حسب تصميم العميل",
+  "service_name_en": "Frontend Development – Client-Provided Design",
+  "category": "frontend_custom",
+  "description": "تحويل تصميمك (Figma, Adobe XD, Sketch, صورة أو Wireframe) إلى موقع ويب حي بكود احترافي عالي الأداء – نضمن لك موقعاً يشبه تصميمك بدقة 99% مع حماية أمنية كاملة",
+  "target_audience": ["المصممون الذين يحتاجون مطور محترف", "الشركات التي لديها فريق تصميم داخلي", "أصحاب الهوية البصرية الجاهزة", "العملاء الذين جربوا قوالب ولم تناسبهم", "المؤسسات التي تريد موقعاً فريداً لا يشبه أحداً"],
+  "requirements_from_client": [
+    "ملف Figma / XD / Sketch أو صور PNG/PDF للتصميم",
+    "الخطوط المستخدمة في التصميم",
+    "الأصول (الصور، الأيقونات، الشعار) بدقة عالية",
+    "محتوى النصوص النهائي (اختياري – يمكننا توفيره)"
+  ],
+  "delivery_unit": "يوم عمل",
+  "revision_policy": "المراجعات مشمولة – تشمل تعديلات الكود لا تغيير التصميم الأصلي",
+  "packages": [
+    {
+      "package_id": "PKG-02-BASIC",
+      "package_name": "باقة التحويل الأساسي",
+      "package_name_en": "Basic Conversion",
+      "badge": "للصفحات البسيطة",
+      "price": {
+        "base": 200,
+        "currency": "USD",
+        "note": "للتصميمات من 1-3 صفحات. يرتفع مع زيادة الصفحات والتعقيد",
+        "variable": true,
+        "range_max": 400
+      },
+      "delivery_days": 5,
+      "revisions": 2,
+      "roi": "تصميمك يتحول إلى واقع رقمي في 5 أيام دون الحاجة لمطور штатный",
+      "features": {
+        "general": [
+          "تحويل تصميم حتى 3 صفحات إلى كود HTML/CSS/JS",
+          "دقة Pixel-Perfect تصل إلى 95%",
+          "تحويل تصميم Desktop إلى Responsive لجميع الأجهزة",
+          "مطابقة الألوان والخطوط والمسافات بدقة",
+          "تسليم الكود منظم ومعلق وسهل الفهم",
+          "دعم فني 7 أيام بعد التسليم"
+        ],
+        "technical": [
+          "HTML5 دلالي (Semantic HTML) للـ SEO",
+          "CSS3 نقي أو Tailwind CSS حسب التفضيل",
+          "JavaScript Vanilla للتفاعلات البسيطة",
+          "تحسين الصور للويب (WebP تلقائياً)",
+          "Meta Tags أساسية لظهورك في Google",
+          "Cross-browser Testing (Chrome, Firefox, Safari, Edge)",
+          "Mobile Breakpoints: 320px, 768px, 1024px, 1440px",
+          "نموذج تواصل يعمل (Formspree أو مشابه) + إشعار فوري",
+          "شهادة SSL جاهزة للتفعيل",
+          "لغة البرمجة: HTML5 + CSS3 + JavaScript",
+          "سرعة تحميل: أقل من 2 ثانية"
+        ],
+        "input_formats_accepted": ["PNG/JPG (صور ثابتة)", "PDF", "Figma Link (view only)"],
+        "not_included": ["تكامل Backend", "لوحة تحكم", "رسوم متحركة معقدة", "تحسين SEO متقدم"],
+        "performance": {
+          "load_speed": "أقل من 2 ثانية",
+          "ssl": true,
+          "mobile_friendly": true
+        }
+      }
+    },
+    {
+      "package_id": "PKG-02-ADVANCED",
+      "package_name": "باقة التحويل المتقدم",
+      "package_name_en": "Advanced Conversion",
+      "badge": "الأكثر طلباً",
+      "price": {
+        "base": 500,
+        "currency": "USD",
+        "note": "للمشاريع المتوسطة 4-10 صفحات. يُحدد بعد تقييم الملف",
+        "variable": true,
+        "range_max": 900
+      },
+      "delivery_days": 10,
+      "revisions": 5,
+      "roi": "موقع React/Next.js يعمل بسرعة خاطفة ويجعل منافسيك يبدون قديمين",
+      "features": {
+        "general": [
+          "كل مميزات الباقة الأساسية +",
+          "تحويل حتى 10 صفحات بدقة Pixel-Perfect عالية",
+          "جلسة تقييم للتصميم وتقديم مقترحات تحسين UX",
+          "تطبيق تحريكات وانتقالات Micro-interactions جذابة",
+          "تحسين تجربة المستخدم بناءً على Best Practices",
+          "نظام تصميم Component-Based – كود قابل لإعادة الاستخدام",
+          "دعم فني 30 يوماً",
+          "موقع يُدهش زبائنك من أول نظرة"
+        ],
+        "technical": [
+          "كل المزايا التقنية للباقة الأساسية +",
+          "React.js أو Vue.js أو Astro – أسرع Frameworks في السوق",
+          "CSS Modules أو Styled Components أو Tailwind",
+          "Framer Motion أو GSAP للرسوم المتحركة الاحترافية",
+          "تحسين Core Web Vitals الشامل – Google يكافئك بترتيب أعلى",
+          "SEO On-Page كامل مع Schema Markup",
+          "Lazy Loading متقدم للصور والمكونات",
+          "Code Splitting لتحسين زمن التحميل الأول",
+          "تكامل Headless CMS (Contentful أو Sanity)",
+          "TypeScript لضمان جودة الكود وتفادي الأخطاء",
+          "Git Repository منظم مع Documentation كاملة",
+          "شهادة SSL مُهيّأة بالكامل",
+          "حماية من هجمات XSS و CSRF",
+          "حماية أساسية من DDoS عبر Cloudflare",
+          "سرعة تحميل أقل من 1.5 ثانية",
+          "Lighthouse Score 85+",
+          "لغات البرمجة: React/Vue + TypeScript + CSS Modules"
+        ],
+        "input_formats_accepted": [
+          "Figma (ملف كامل مع Auto Layout)",
+          "Adobe XD",
+          "Sketch",
+          "PNG/JPG/PDF",
+          "Zeplin أو Avocode"
+        ],
+        "deliverables": [
+          "كود المصدر كاملاً على GitHub",
+          "Build جاهز للنشر",
+          "ملف README بتعليمات التشغيل",
+          "Component Documentation"
+        ],
+        "performance": {
+          "load_speed": "أقل من 1.5 ثانية",
+          "lighthouse_score": "85+",
+          "ssl": true,
+          "ddos_protection": "أساسية عبر Cloudflare",
+          "mobile_friendly": true
+        }
+      }
+    },
+    {
+      "package_id": "PKG-02-ENTERPRISE",
+      "package_name": "باقة المشاريع الكبيرة",
+      "package_name_en": "Enterprise Conversion",
+      "badge": "للمشاريع الضخمة",
+      "price": {
+        "base": 1200,
+        "currency": "USD",
+        "note": "يبدأ من – السعر النهائي بعد تقييم كامل للتصميم والمتطلبات",
+        "variable": true,
+        "range_max": 3000
+      },
+      "delivery_days": 21,
+      "revisions": "غير محدودة حتى المطابقة الكاملة",
+      "roi": "منصة ويب Enterprise-grade تُنافس المواقع العالمية بأداء خارق",
+      "features": {
+        "general": [
+          "كل مميزات الباقة المتقدمة +",
+          "صفحات غير محدودة – مشروعك بلا حدود",
+          "فريق من مطور + مصمح UX للمراجعة",
+          "Design System كامل (Colors, Typography, Spacing, Components)",
+          "اختبار A/B على عناصر رئيسية – ما يبيع أكثر يبقى",
+          "تحليل تجربة المستخدم قبل وبعد الإطلاق",
+          "تقرير Lighthouse شامل بعد التسليم",
+          "دعم مخصص 90 يوماً",
+          "إمكانية التوسع والصيانة المستمرة",
+          "موقع يدر عليك دخلاً حتى أثناء نومك"
+        ],
+        "technical": [
+          "كل المزايا التقنية للباقة المتقدمة +",
+          "Next.js أو Nuxt.js مع SSR/SSG/ISR – الأسرع عالمياً",
+          "Monorepo Setup (Turborepo) للمشاريع الضخمة",
+          "Design Tokens نظام كامل مع CSS Custom Properties",
+          "E2E Testing بـ Playwright لضمان جودة كل صفحة",
+          "تحسين Bundle Size تلقائي – كود خفيف كالريشة",
+          "Image Optimization تلقائي (Next/Image أو Cloudinary)",
+          "PWA كامل مع Service Worker – موقعك يعمل حتى بدون نت",
+          "i18n متقدم مع RTL/LTR تلقائي (عربي/إنجليزي وأكثر)",
+          "تكامل Hotjar و Mixpanel لتحليل سلوك الزبائن",
+          "Content Security Policy (CSP) Headers",
+          "Docker Container جاهز للنشر على أي سحابة",
+          "حماية متكاملة من DDoS و Bot Attacks و SQL Injection و XSS",
+          "SSL Wildcard مع تجديد تلقائي",
+          "WAF (Web Application Firewall) لحماية شاملة",
+          "CDN عالمي لتوزيع سريع لكل مستخدمي العالم",
+          "نسخ احتياطية يومية تلقائية",
+          "Domain مُهيّأ بالكامل مع DNSSEC",
+          "Uptime 99.99% مضمون",
+          "سرعة تحميل أقل من 0.8 ثانية",
+          "Lighthouse Score 95+",
+          "لغات البرمجة: Next.js / TypeScript + Node.js + CSS-in-JS"
+        ],
+        "deliverables": [
+          "كود المصدر كاملاً على GitHub أو GitLab",
+          "Design System Documentation",
+          "Storybook منشور",
+          "تقرير أداء Lighthouse + Web Vitals",
+          "ملف Component Map",
+          "دليل الصيانة والتطوير",
+          "جلسة Handover مع الفريق التقني للعميل"
+        ],
+        "bonus": [
+          "استضافة مجانية شهر على Vercel أو Netlify",
+          "Domain Setup + DNSSEC مجاناً",
+          "SSL Wildcard وإعدادات الأمان الكاملة",
+          "تقرير تنافسي – كيف تتفوق على منافسيك",
+          "جلسة تدريبية للفريق التقني"
+        ],
+        "performance": {
+          "load_speed": "أقل من 0.8 ثانية",
+          "lighthouse_score": "95+",
+          "ssl": "Wildcard SSL",
+          "ddos_protection": "متقدمة – WAF + Cloudflare Enterprise",
+          "mobile_friendly": true,
+          "cdn": true,
+          "backup": "يومي تلقائي",
+          "uptime_guarantee": "99.99%"
+        }
+      }
+    }
+  ],
+  "add_ons": [
+    { "name": "صفحة Landing Page إضافية", "price": 80, "unit": "USD/صفحة" },
+    { "name": "رسوم متحركة GSAP/Lottie مخصصة", "price": 150, "unit": "USD/قسم" },
+    { "name": "تكامل CMS (Contentful/Sanity)", "price": 200, "unit": "USD" },
+    { "name": "إعداد CI/CD Pipeline", "price": 100, "unit": "USD" },
+    { "name": "اختبارات Automated Testing", "price": 120, "unit": "USD" },
+    { "name": "حماية WAF إضافية", "price": 80, "unit": "USD/شهر" },
+    { "name": "تقرير SEO تنافسي", "price": 60, "unit": "USD" }
+  ],
+  "publishing_keywords": [
+    "تحويل Figma إلى كود", "Pixel Perfect", "React developer", "تصميم إلى موقع",
+    "مطور Frontend محترف", "تحويل تصميم", "Next.js", "موقع سريع وأنيق",
+    "تطوير واجهة مستخدم", "UI Development", "حماية DDoS", "موقع آمن",
+    "موقع يُدهش", "Lighthouse 90+"
+  ]
+}

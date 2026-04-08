@@ -1,0 +1,72 @@
+{
+  "schedule": {
+    "cron": "0 9,14,20 * * *",
+    "timezone": "Africa/Algiers",
+    "posts_per_day": 3
+  },
+  "feature_selection": {
+    "features_per_post_min": 3,
+    "features_per_post_max": 5,
+    "avoid_last_n_posts": 20,
+    "mix_general_and_technical": true
+  },
+  "post_styles": [
+    {
+      "id": "success_story",
+      "name_ar": "قصة نجاح",
+      "prompt_instruction": "اكتب المنشور كقصة نجاح لزبون استخدم خدمتنا. ابدأ بمشكلة كان يعانيها، ثم كيف حلّيناها، ثم النتيجة المبهرة. استخدم أسلوب حواري ومشوّق."
+    },
+    {
+      "id": "problem_solution",
+      "name_ar": "مشكلة وحل",
+      "prompt_instruction": "ابدأ بطرح مشكلة شائعة يعانيها أصحاب الأعمال، ثم اعرض الحل الذي نقدمه مع الميزات التقنية. اجعل القارئ يشعر بأنه يحتاج هذا الحل فوراً."
+    },
+    {
+      "id": "comparison",
+      "name_ar": "مقارنة: بدون خدمتنا vs مع خدمتنا",
+      "prompt_instruction": "اكتب المنشور كجدول مقارنة بين الحالة بدون خدمتنا (المشاكل، التكلفة العالية، الوقت الضائع) والحالة مع خدمتنا (الحلول، التوفير، السرعة). استخدم إيموجي ❌ و ✅."
+    },
+    {
+      "id": "stats_facts",
+      "name_ar": "أرقام وإحصائيات",
+      "prompt_instruction": "ابدأ بأرقام وإحصائيات مقنعة عن المجال (يمكنك استخدام أرقام واقعية أو تقريبية). ثم اربط هذه الأرقام بخدمتنا وكيف تساعد الزبون. اجعل الأرقام بارزة ومؤثرة."
+    }
+  ],
+  "ai_instructions": {
+    "general_rules": [
+      "اكتب بالعربية الفصحى البسيطة مع لمسة دارجة جزائرية خفيفة",
+      "طول المنشور: 150-300 كلمة",
+      "استخدم إيموجي بشكل مناسب (3-6 إيموجي)",
+      "اختم المنشور بدعوة واضحة للتواصل (CTA)",
+      "اذكر السعر بطريقة جذابة (يبدأ من...)",
+      "لا تذكر اسم المنافسين",
+      "استخدم 3-5 هاشتاقات مناسبة في النهاية"
+    ],
+    "brand_voice": "أسلوب احترافي ومحترم لكن قريب من الناس، يجمع بين الخبرة التقنية والبساطة في الشرح",
+    "target_market": "أصحاب الأعمال والشركات في الجزائر والعالم العربي"
+  },
+  "facebook": {
+    "page_id": "YOUR_PAGE_ID",
+    "api_version": "v21.0"
+  },
+  "models": {
+    "draft": {
+      "provider": "cerebras",
+      "url": "https://api.cerebras.ai/v1/chat/completions",
+      "model": "qwen-3-32b",
+      "credential_name": "Cerebras API"
+    },
+    "review": {
+      "provider": "github_models",
+      "url": "https://models.inference.ai.azure.com/chat/completions",
+      "model": "gpt-4o",
+      "credential_name": "GitHub Models API"
+    },
+    "fallback": {
+      "provider": "ollama",
+      "url": "http://localhost:11434/api/chat",
+      "model": "qwen2.5:7b"
+    }
+  },
+  "data_files_path": "/home/djamel/Documents/n8n/mark"
+}

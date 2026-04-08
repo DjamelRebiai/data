@@ -1,0 +1,311 @@
+{
+  "name": "Facebook AI Content Publisher",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            },
+            {
+              "triggerAtHour": 14
+            },
+            {
+              "triggerAtHour": 20
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 300]
+    },
+
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.url_service_01 || 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/service_01_frontend_templates.json' }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "fetch-srv01",
+      "name": "Fetch SRV-01",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 100]
+    },
+
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.url_service_02 || 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/service_02_frontend_custom.json' }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "fetch-srv02",
+      "name": "Fetch SRV-02",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 260]
+    },
+
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.url_service_03 || 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/service_03_fullstack.json' }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "fetch-srv03",
+      "name": "Fetch SRV-03",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 420]
+    },
+
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.url_service_04 || 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/service_04_ai_business_solutions.json' }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "fetch-srv04",
+      "name": "Fetch SRV-04",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 580]
+    },
+
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge-services",
+      "name": "Merge Services",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [460, 260]
+    },
+
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge-services-2",
+      "name": "Merge Services 2",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [460, 480]
+    },
+
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge-all",
+      "name": "Merge All",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [680, 360]
+    },
+
+    {
+      "parameters": {
+        "jsCode": "// ====== Combine all 4 services into one array + load stats from Static Data ======\n\n// The 4 HTTP requests come merged — extract each service\nconst srv01 = $('Fetch SRV-01').first().json;\nconst srv02 = $('Fetch SRV-02').first().json;\nconst srv03 = $('Fetch SRV-03').first().json;\nconst srv04 = $('Fetch SRV-04').first().json;\n\nconst services = [srv01, srv02, srv03, srv04];\n\n// ====== Load Stats from n8n Static Data (persistent, no files needed) ======\nconst staticData = $getWorkflowStaticData('global');\n\nif (!staticData.stats) {\n  staticData.stats = {\n    total_posts: 0,\n    service_rotation_index: 0,\n    style_rotation_index: 0,\n    package_rotation_index: 0,\n    last_20_posts: [],\n    feature_usage: {}\n  };\n}\n\n// ====== Publishing Config (embedded) ======\nconst config = {\n  post_styles: [\n    {\n      id: 'success_story',\n      name_ar: 'قصة نجاح',\n      prompt_instruction: 'اكتب المنشور كقصة نجاح لزبون استخدم خدمتنا. ابدأ بمشكلة كان يعانيها، ثم كيف حلّيناها، ثم النتيجة المبهرة. استخدم أسلوب حواري ومشوّق.'\n    },\n    {\n      id: 'problem_solution',\n      name_ar: 'مشكلة وحل',\n      prompt_instruction: 'ابدأ بطرح مشكلة شائعة يعانيها أصحاب الأعمال، ثم اعرض الحل الذي نقدمه مع الميزات التقنية. اجعل القارئ يشعر بأنه يحتاج هذا الحل فوراً.'\n    },\n    {\n      id: 'comparison',\n      name_ar: 'مقارنة: بدون خدمتنا vs مع خدمتنا',\n      prompt_instruction: 'اكتب المنشور كمقارنة بين الحالة بدون خدمتنا (المشاكل، التكلفة العالية، الوقت الضائع) والحالة مع خدمتنا (الحلول، التوفير، السرعة). استخدم إيموجي ❌ و ✅.'\n    },\n    {\n      id: 'stats_facts',\n      name_ar: 'أرقام وإحصائيات',\n      prompt_instruction: 'ابدأ بأرقام وإحصائيات مقنعة عن المجال. ثم اربط هذه الأرقام بخدمتنا وكيف تساعد الزبون. اجعل الأرقام بارزة ومؤثرة.'\n    }\n  ],\n  ai_instructions: {\n    general_rules: [\n      'اكتب بالعربية الفصحى البسيطة مع لمسة دارجة جزائرية خفيفة',\n      'طول المنشور: 150-300 كلمة',\n      'استخدم إيموجي بشكل مناسب (3-6 إيموجي)',\n      'اختم المنشور بدعوة واضحة للتواصل (CTA)',\n      'اذكر السعر بطريقة جذابة (يبدأ من...)',\n      'لا تذكر اسم المنافسين',\n      'استخدم 3-5 هاشتاقات مناسبة في النهاية'\n    ],\n    brand_voice: 'أسلوب احترافي ومحترم لكن قريب من الناس، يجمع بين الخبرة التقنية والبساطة في الشرح'\n  },\n  facebook: {\n    page_id: 'YOUR_PAGE_ID',\n    api_version: 'v21.0'\n  },\n  models: {\n    draft: { model: 'qwen-3-32b' },\n    review: { model: 'gpt-4o' }\n  }\n};\n\nreturn [{ json: { services, stats: staticData.stats, config } }];"
+      },
+      "id": "prepare-data",
+      "name": "Prepare Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 360]
+    },
+
+    {
+      "parameters": {
+        "jsCode": "// ====== SMART SELECTOR — Brain of the system ======\nconst { services, config, stats } = $input.first().json;\n\n// ---- 1. Choose Service (rotation) ----\nconst serviceOrder = ['SRV-01', 'SRV-02', 'SRV-03', 'SRV-04'];\nconst srvIndex = stats.service_rotation_index % serviceOrder.length;\nconst targetServiceId = serviceOrder[srvIndex];\n\nlet selectedService = services.find(s => s.service_id === targetServiceId);\nif (!selectedService) selectedService = services[0];\n\n// ---- 2. Choose Package (rotation through tiers) ----\nlet packages;\nlet solutionName = null;\nif (selectedService.packages) {\n  packages = selectedService.packages;\n} else if (selectedService.solutions) {\n  // SRV-04 has solutions → each solution has packages\n  const solIndex = stats.package_rotation_index % selectedService.solutions.length;\n  const selectedSolution = selectedService.solutions[solIndex];\n  solutionName = selectedSolution.solution_name;\n  packages = selectedSolution.packages;\n}\n\nconst pkgIndex = stats.package_rotation_index % packages.length;\nconst selectedPackage = packages[pkgIndex];\n\n// ---- 3. Choose Features (avoid last 20 posts) ----\nconst recentFeatures = new Set();\nfor (const post of (stats.last_20_posts || [])) {\n  if (post.features) {\n    post.features.forEach(f => recentFeatures.add(f));\n  }\n}\n\nconst allFeatures = [];\nconst featureKeys = Object.keys(selectedPackage.features || {});\nfor (const key of featureKeys) {\n  const feats = selectedPackage.features[key];\n  if (Array.isArray(feats)) {\n    feats.forEach(f => {\n      if (typeof f === 'string' && !f.startsWith('كل ')) {\n        allFeatures.push({ text: f, category: key });\n      }\n    });\n  }\n}\n\nlet availableFeatures = allFeatures.filter(f => !recentFeatures.has(f.text));\nif (availableFeatures.length < 3) availableFeatures = allFeatures;\n\nconst shuffled = availableFeatures.sort(() => Math.random() - 0.5);\nconst count = Math.floor(Math.random() * 3) + 3;\nconst selectedFeatures = shuffled.slice(0, count);\n\n// ---- 4. Choose Post Style (rotation) ----\nconst styles = config.post_styles;\nconst styleIndex = stats.style_rotation_index % styles.length;\nconst selectedStyle = styles[styleIndex];\n\n// ---- 5. Keywords ----\nconst keywords = (selectedService.publishing_keywords || []).sort(() => Math.random() - 0.5).slice(0, 4);\n\n// ---- 6. Output ----\nreturn [{ json: {\n  selected_service: {\n    id: selectedService.service_id,\n    name: selectedService.service_name,\n    name_en: selectedService.service_name_en,\n    description: selectedService.description,\n    target_audience: selectedService.target_audience,\n    solution_name: solutionName\n  },\n  selected_package: {\n    id: selectedPackage.package_id,\n    name: selectedPackage.package_name,\n    name_en: selectedPackage.package_name_en || '',\n    badge: selectedPackage.badge || '',\n    price: selectedPackage.price,\n    delivery_days: selectedPackage.delivery_days\n  },\n  selected_features: selectedFeatures.map(f => f.text),\n  feature_categories: [...new Set(selectedFeatures.map(f => f.category))],\n  post_style: selectedStyle,\n  keywords,\n  new_rotation: {\n    service_rotation_index: srvIndex + 1,\n    style_rotation_index: styleIndex + 1,\n    package_rotation_index: pkgIndex + 1\n  },\n  config\n} }];"
+      },
+      "id": "smart-selector",
+      "name": "Smart Selector",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 360]
+    },
+
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cerebras.ai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  model: $json.config.models.draft.model,\n  messages: [\n    {\n      role: 'system',\n      content: 'أنت خبير تسويق رقمي متخصص في كتابة منشورات فايسبوك بالعربية. تكتب محتوى يجذب أصحاب الأعمال والشركات. ' + $json.config.ai_instructions.brand_voice + '. القواعد: ' + $json.config.ai_instructions.general_rules.join(' | ')\n    },\n    {\n      role: 'user',\n      content: 'اكتب منشور فايسبوك احترافي.\\n\\nالخدمة: ' + $json.selected_service.name + '\\nالوصف: ' + $json.selected_service.description + ($json.selected_service.solution_name ? '\\nالحل: ' + $json.selected_service.solution_name : '') + '\\nالباقة: ' + $json.selected_package.name + ' (' + $json.selected_package.name_en + ')' + ($json.selected_package.badge ? ' — ' + $json.selected_package.badge : '') + '\\nالسعر: يبدأ من ' + $json.selected_package.price.base + ' ' + $json.selected_package.price.currency + '\\nالتسليم: ' + $json.selected_package.delivery_days + ' يوم عمل\\n\\nالميزات المختارة للتركيز عليها:\\n' + $json.selected_features.map((f, i) => (i+1) + '. ' + f).join('\\n') + '\\n\\nأسلوب الكتابة: ' + $json.post_style.name_ar + '\\nالتعليمات: ' + $json.post_style.prompt_instruction + '\\n\\nالكلمات المفتاحية (أدرجها بشكل طبيعي): ' + $json.keywords.join(', ') + '\\n\\nالجمهور المستهدف: ' + $json.selected_service.target_audience.join(', ')\n    }\n  ],\n  max_tokens: 1000,\n  temperature: 0.8\n}) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "ai-draft",
+      "name": "AI Draft - Cerebras",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 360],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Cerebras API"
+        }
+      }
+    },
+
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://models.inference.ai.azure.com/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  model: 'gpt-4o',\n  messages: [\n    {\n      role: 'system',\n      content: 'أنت مراجع محتوى محترف. مهمتك مراجعة وتحسين منشور فايسبوك. حافظ على نفس الفكرة والأسلوب لكن:\\n1. حسّن الصياغة والانسيابية\\n2. تأكد من عدم وجود أخطاء لغوية\\n3. أضف أو حسّن الإيموجي (3-6 إيموجي)\\n4. تأكد أن CTA واضح في النهاية\\n5. أضف 3-5 هاشتاقات في السطر الأخير\\n6. اجعل المنشور بين 150-300 كلمة\\n\\nأعد المنشور النهائي فقط بدون ملاحظات أو شرح.'\n    },\n    {\n      role: 'user',\n      content: 'راجع وحسّن هذا المنشور:\\n\\n' + $json.choices[0].message.content\n    }\n  ],\n  max_tokens: 1200,\n  temperature: 0.5\n}) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "ai-review",
+      "name": "AI Review - GPT",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1560, 360],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "GitHub Models API"
+        }
+      }
+    },
+
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{ $('Prepare Data').first().json.config.facebook.page_id }}/feed",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  message: $json.choices[0].message.content\n}) }}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "publish-facebook",
+      "name": "Publish to Facebook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1780, 360],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Facebook Page Token"
+        }
+      }
+    },
+
+    {
+      "parameters": {
+        "jsCode": "// ====== Update Stats in n8n Static Data (auto-persisted!) ======\nconst staticData = $getWorkflowStaticData('global');\n\nconst selector = $('Smart Selector').first().json;\nconst fbResponse = $input.first().json;\n\n// Ensure stats exist\nif (!staticData.stats) {\n  staticData.stats = {\n    total_posts: 0,\n    service_rotation_index: 0,\n    style_rotation_index: 0,\n    package_rotation_index: 0,\n    last_20_posts: [],\n    feature_usage: {}\n  };\n}\n\nconst stats = staticData.stats;\n\n// Increment\nstats.total_posts += 1;\n\n// Update rotations\nstats.service_rotation_index = selector.new_rotation.service_rotation_index;\nstats.style_rotation_index = selector.new_rotation.style_rotation_index;\nstats.package_rotation_index = selector.new_rotation.package_rotation_index;\n\n// Add to history\nconst newPost = {\n  post_number: stats.total_posts,\n  service_id: selector.selected_service.id,\n  service_name: selector.selected_service.name,\n  package_id: selector.selected_package.id,\n  package_name: selector.selected_package.name,\n  features: selector.selected_features,\n  style: selector.post_style.id,\n  facebook_post_id: fbResponse.id || 'unknown',\n  published_at: new Date().toISOString()\n};\n\nstats.last_20_posts.unshift(newPost);\nif (stats.last_20_posts.length > 20) {\n  stats.last_20_posts = stats.last_20_posts.slice(0, 20);\n}\n\n// Update feature usage\nfor (const feature of selector.selected_features) {\n  stats.feature_usage[feature] = (stats.feature_usage[feature] || 0) + 1;\n}\n\nstats.last_updated = new Date().toISOString();\n\n// Static Data is auto-saved by n8n — no fs.writeFile needed!\n\nreturn [{ json: {\n  status: 'success',\n  post_number: stats.total_posts,\n  service: selector.selected_service.name,\n  package_name: selector.selected_package.name,\n  features_count: selector.selected_features.length,\n  style: selector.post_style.name_ar,\n  facebook_post_id: fbResponse.id || 'unknown'\n} }];"
+      },
+      "id": "update-stats",
+      "name": "Update Stats",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2000, 360]
+    },
+
+    {
+      "parameters": {
+        "jsCode": "// ====== Log Result ======\nconst result = $input.first().json;\nconst timestamp = new Date().toISOString();\n\nreturn [{ json: {\n  ...result,\n  timestamp,\n  log: `✅ Post #${result.post_number} | ${result.service} | ${result.package_name} | ${result.style}`\n} }];"
+      },
+      "id": "log-result",
+      "name": "Log Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2220, 360]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          { "node": "Fetch SRV-01", "type": "main", "index": 0 },
+          { "node": "Fetch SRV-02", "type": "main", "index": 0 },
+          { "node": "Fetch SRV-03", "type": "main", "index": 0 },
+          { "node": "Fetch SRV-04", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Fetch SRV-01": {
+      "main": [[{ "node": "Merge Services", "type": "main", "index": 0 }]]
+    },
+    "Fetch SRV-02": {
+      "main": [[{ "node": "Merge Services", "type": "main", "index": 1 }]]
+    },
+    "Fetch SRV-03": {
+      "main": [[{ "node": "Merge Services 2", "type": "main", "index": 0 }]]
+    },
+    "Fetch SRV-04": {
+      "main": [[{ "node": "Merge Services 2", "type": "main", "index": 1 }]]
+    },
+    "Merge Services": {
+      "main": [[{ "node": "Merge All", "type": "main", "index": 0 }]]
+    },
+    "Merge Services 2": {
+      "main": [[{ "node": "Merge All", "type": "main", "index": 1 }]]
+    },
+    "Merge All": {
+      "main": [[{ "node": "Prepare Data", "type": "main", "index": 0 }]]
+    },
+    "Prepare Data": {
+      "main": [[{ "node": "Smart Selector", "type": "main", "index": 0 }]]
+    },
+    "Smart Selector": {
+      "main": [[{ "node": "AI Draft - Cerebras", "type": "main", "index": 0 }]]
+    },
+    "AI Draft - Cerebras": {
+      "main": [[{ "node": "AI Review - GPT", "type": "main", "index": 0 }]]
+    },
+    "AI Review - GPT": {
+      "main": [[{ "node": "Publish to Facebook", "type": "main", "index": 0 }]]
+    },
+    "Publish to Facebook": {
+      "main": [[{ "node": "Update Stats", "type": "main", "index": 0 }]]
+    },
+    "Update Stats": {
+      "main": [[{ "node": "Log Result", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Africa/Algiers",
+    "saveManualExecutions": true,
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all"
+  },
+  "tags": [
+    { "name": "facebook" },
+    { "name": "ai-publisher" },
+    { "name": "marketing" }
+  ]
+}
