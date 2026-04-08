@@ -1,0 +1,577 @@
+{
+  "service_id": "SRV-04",
+  "service_name": "حلول الذكاء الاصطناعي للأعمال",
+  "service_name_en": "AI Business Solutions",
+  "category": "ai_business_solutions",
+  "description": "حلول ذكاء اصطناعي عملية تعمل بدل موظف حقيقي – تخدم زبائنك، تحلل بياناتك، ترد على رسائلك، وتتخذ لك قرارات ذكية على مدار الساعة",
+  "value_proposition": "بدلاً من أن تدفع راتب موظف كل شهر، يعمل النظام 24/7 بدون إجازات ولا أخطاء بشرية",
+  "target_audience": [
+    "أصحاب المحلات والمتاجر الإلكترونية",
+    "العيادات ومراكز الجمال والخدمات",
+    "الفنادق والمطاعم وشركات السياحة",
+    "الشركات التي لديها فريق دعم عملاء",
+    "المديرون الذين يريدون قرارات مبنية على بيانات",
+    "أي صاحب عمل يريد خفض التكاليف التشغيلية"
+  ],
+
+  "solutions": [
+
+    {
+      "solution_id": "AI-01",
+      "solution_name": "مساعد الزبائن الذكي – واتساب وموقع الويب",
+      "solution_name_en": "AI Customer Assistant – WhatsApp & Website",
+      "short_description": "بوت يرد على زبائنك فوراً، يعرف منتجاتك وخدماتك، ويقنعهم بالشراء أو الحجز – كأن لديك موظف استقبال يعمل 24/7",
+      "replaces": "موظف استقبال / خدمة عملاء",
+      "packages": [
+        {
+          "package_id": "AI-01-BASIC",
+          "package_name": "البوت الأساسي",
+          "price": { "base": 250, "currency": "USD", "variable": true, "range_max": 450, "note": "يرتفع مع عدد القنوات وحجم المعرفة" },
+          "delivery_days": 5,
+          "revisions": 2,
+          "features": {
+            "general": [
+              "بوت دردشة على موقعك أو WhatsApp (قناة واحدة)",
+              "يجيب على الأسئلة الشائعة FAQ",
+              "يعرّف بخدماتك ومنتجاتك وأسعارك",
+              "يوجه الزبون لطريقة التواصل أو الشراء",
+              "رسائل ترحيب وتوديع تلقائية",
+              "يعمل 24/7 بدون توقف"
+            ],
+            "technical": [
+              "قاعدة معرفة من ملف PDF أو Word أو نص مكتوب",
+              "نموذج AI سريع (Cerebras/Qwen أو Groq)",
+              "ردود فورية خلال ثانية واحدة",
+              "دعم العربية والفرنسية والإنجليزية",
+              "Widget تثبيت بسيط على الموقع (سطر كود واحد)",
+              "أو تكامل WhatsApp عبر Twilio أو WATI"
+            ],
+            "not_included": ["تذكير تلقائي للزبائن", "حجز مواعيد", "ربط بقاعدة بيانات المتجر"]
+          }
+        },
+        {
+          "package_id": "AI-01-SMART",
+          "package_name": "البوت الذكي",
+          "badge": "الأكثر طلباً",
+          "price": { "base": 600, "currency": "USD", "variable": true, "range_max": 1200, "note": "حسب عدد القنوات وحجم الكتالوج" },
+          "delivery_days": 12,
+          "revisions": 4,
+          "features": {
+            "general": [
+              "كل مميزات الباقة الأساسية +",
+              "يعمل على قناتين في نفس الوقت (مثلاً موقع + واتساب)",
+              "يحفظ تاريخ المحادثة مع كل زبون",
+              "يقترح المنتجات المناسبة بناءً على ما يريده الزبون",
+              "يرسل صور المنتجات والروابط تلقائياً",
+              "يحول المحادثة لموظف بشري عند الحاجة (Handoff)",
+              "لوحة متابعة للمحادثات"
+            ],
+            "technical": [
+              "RAG System – يقرأ من كتالوج منتجاتك الحقيقي",
+              "ذاكرة محادثة لكل زبون (يتذكره في المرة القادمة)",
+              "اكتشاف نية الزبون (يريد يشتري؟ يشكو؟ يستفسر؟)",
+              "ردود مخصصة حسب نوع الزبون",
+              "تكامل مع WhatsApp Business API",
+              "إشعار فوري للمسؤول عند محادثة حرجة",
+              "تقرير أسبوعي بالأسئلة الأكثر تكراراً",
+              "تحديث قاعدة المعرفة بسهولة بدون برمجة"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-01-ELITE",
+          "package_name": "المساعد الاحترافي الكامل",
+          "price": { "base": 1500, "currency": "USD", "variable": true, "range_max": 3000 },
+          "delivery_days": 21,
+          "revisions": "غير محدودة",
+          "features": {
+            "general": [
+              "كل مميزات الباقة الذكية +",
+              "يعمل على جميع القنوات (موقع + واتساب + ماسنجر + إنستغرام + تيليغرام)",
+              "يُتمم عملية البيع كاملة داخل المحادثة",
+              "يرسل وصل الطلب والتأكيد تلقائياً",
+              "يتابع الزبون بعد الشراء ويطلب التقييم",
+              "يرسل عروض مخصصة للزبائن القدامى",
+              "Dashboard كامل لتحليل المحادثات",
+              "دعم فني 90 يوماً"
+            ],
+            "technical": [
+              "Multi-channel Orchestration موحد",
+              "نظام CRM مدمج خفيف (حفظ بيانات الزبائن)",
+              "Upsell وCross-sell تلقائي بالذكاء الاصطناعي",
+              "اكتشاف الزبائن الغاضبين والتعامل معهم بأسلوب خاص",
+              "تكامل مع نظام المتجر (Shopify/WooCommerce) أو قاعدة بياناتك",
+              "Analytics: معدل التحويل، أكثر الأسئلة، أوقات الذروة",
+              "A/B Testing على ردود البوت",
+              "نموذج AI مخصص يتكلم بأسلوب علامتك التجارية"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "solution_id": "AI-02",
+      "solution_name": "نظام الحجز والمواعيد الذكي",
+      "solution_name_en": "AI Booking & Appointment System",
+      "short_description": "زبونك يحجز موعده مباشرة عبر الواتساب أو موقعك – النظام يتأكد، يذكّره، وينبهك – بدون مكالمات ولا رسائل يدوية",
+      "replaces": "موظف حجز / سكرتيرة",
+      "packages": [
+        {
+          "package_id": "AI-02-BASIC",
+          "package_name": "الحجز البسيط",
+          "price": { "base": 300, "currency": "USD", "variable": true, "range_max": 500 },
+          "delivery_days": 7,
+          "revisions": 2,
+          "features": {
+            "general": [
+              "زبونك يختار الوقت المتاح ويحجز بنفسه",
+              "تأكيد الحجز تلقائياً عبر واتساب أو إيميل",
+              "تذكير للزبون قبل 24 ساعة من موعده",
+              "إشعار لك فوراً بكل حجز جديد",
+              "إمكانية إلغاء أو تعديل الحجز"
+            ],
+            "technical": [
+              "ربط مع Google Calendar أو Calendly",
+              "واتساب أو SMS للتأكيدات والتذكيرات",
+              "n8n Workflow للأتمتة الكاملة",
+              "نموذج حجز على موقعك أو رابط مباشر"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-02-SMART",
+          "package_name": "الحجز الذكي",
+          "badge": "الأفضل للعيادات والخدمات",
+          "price": { "base": 700, "currency": "USD", "variable": true, "range_max": 1300 },
+          "delivery_days": 14,
+          "revisions": 4,
+          "features": {
+            "general": [
+              "كل مميزات الباقة البسيطة +",
+              "حجز عبر محادثة طبيعية في الواتساب (يكتب 'أريد موعد' وينتهي الأمر)",
+              "اقتراح أوقات بديلة تلقائياً عند امتلاء الجدول",
+              "قائمة انتظار Waiting List ذكية",
+              "تذكير متعدد (48h, 24h, 1h قبل الموعد)",
+              "متابعة ما بعد الخدمة (كيف كانت تجربتك؟)",
+              "تقرير شهري بنسب الحضور والإلغاء"
+            ],
+            "technical": [
+              "AI يفهم الطلبات بلغة طبيعية (مش قوائم)",
+              "ربط بجدول أوقات عمل مخصص لك",
+              "إدارة حجوزات موظفين متعددين",
+              "Webhook لربطه بأي نظام عندك",
+              "لوحة تحكم للمواعيد (يومي/أسبوعي/شهري)",
+              "إحصائيات: أوقات الذروة، أكثر الخدمات طلباً"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-02-ELITE",
+          "package_name": "المنصة الكاملة للحجز",
+          "price": { "base": 1800, "currency": "USD", "variable": true, "range_max": 3500 },
+          "delivery_days": 25,
+          "revisions": "غير محدودة",
+          "features": {
+            "general": [
+              "كل مميزات الباقة الذكية +",
+              "نظام دفع عند الحجز (لمنع الغياب)",
+              "بروفايل لكل زبون مع تاريخ زياراته",
+              "برنامج ولاء (كل X حجوزات تحصل على هدية)",
+              "حملات تسويقية تلقائية للزبائن غير النشطين",
+              "تطبيق ويب للزبون لرؤية حجوزاته وإدارتها"
+            ],
+            "technical": [
+              "بوابة دفع مدمجة (Stripe أو محلية)",
+              "نظام نقاط ولاء آلي",
+              "حملات Reactivation للزبائن القدامى",
+              "API كامل لربطه بأنظمتك الأخرى",
+              "تقارير مالية: إيراد يومي/أسبوعي/شهري"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "solution_id": "AI-03",
+      "solution_name": "وكيل البريد الإلكتروني الذكي",
+      "solution_name_en": "AI Email Agent",
+      "short_description": "وكيل يقرأ كل رسائلك، يفهم ما يريده المرسل، ويرد بشكل احترافي أو يصنفها ويلخصها لك – كأن لديك سكرتيرة متخصصة",
+      "replaces": "موظف بريد إلكتروني / سكرتيرة",
+      "packages": [
+        {
+          "package_id": "AI-03-BASIC",
+          "package_name": "التصنيف والتلخيص",
+          "price": { "base": 200, "currency": "USD", "variable": true, "range_max": 400 },
+          "delivery_days": 5,
+          "revisions": 2,
+          "features": {
+            "general": [
+              "يقرأ رسائلك الواردة تلقائياً",
+              "يصنفها (طلب، شكوى، استفسار، فاتورة، مهم، غير مهم)",
+              "يلخص كل رسالة في 3 أسطر",
+              "يرسل لك ملخصاً يومياً بأهم الرسائل",
+              "ينبهك فوراً على الرسائل العاجلة"
+            ],
+            "technical": [
+              "تكامل مع Gmail أو Outlook",
+              "n8n Workflow + نموذج AI",
+              "تصنيف تلقائي بـ Labels/Folders",
+              "ملخص يومي عبر واتساب أو إيميل"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-03-SMART",
+          "package_name": "الرد الذكي",
+          "badge": "يوفر ساعات يومياً",
+          "price": { "base": 500, "currency": "USD", "variable": true, "range_max": 900 },
+          "delivery_days": 10,
+          "revisions": 4,
+          "features": {
+            "general": [
+              "كل مميزات الباقة الأساسية +",
+              "يكتب ردوداً جاهزة لك تراجعها وترسلها بضغطة",
+              "أو يرد تلقائياً على أنواع معينة من الرسائل",
+              "يعرف أسلوبك في الكتابة ويقلده",
+              "يستخرج المهام من الرسائل ويضيفها لـ To-do List",
+              "يرسل ردود غياب ذكية (مش مجرد رسالة جامدة)"
+            ],
+            "technical": [
+              "Few-shot Prompting بأسلوب كتابتك",
+              "ربط مع Notion أو Google Tasks للمهام",
+              "قواعد مخصصة: من يُرد عليه تلقائياً ومن لا",
+              "Draft Mode أو Auto-Send Mode (تختار)",
+              "لوحة مراجعة الردود قبل الإرسال"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-03-ELITE",
+          "package_name": "الوكيل الكامل للبريد",
+          "price": { "base": 1200, "currency": "USD", "variable": true, "range_max": 2500 },
+          "delivery_days": 18,
+          "revisions": "غير محدودة",
+          "features": {
+            "general": [
+              "كل مميزات الباقة الذكية +",
+              "يتفاوض في الرسائل (يرسل عرض، ينتظر، يتابع)",
+              "يرسل Proposals ومقترحات أولية للعملاء الجدد",
+              "يتابع العروض غير المردود عليها تلقائياً",
+              "يجدول الاجتماعات مباشرة من الإيميل",
+              "تقرير شهري: من أرسل أكثر، ماذا طلبوا، ما تم إنجازه"
+            ],
+            "technical": [
+              "Multi-step Agent (يفكر في خطوات متعددة)",
+              "ربط مع Calendar لجدولة المواعيد",
+              "CRM خفيف: يسجل تاريخ التواصل مع كل عميل",
+              "Template Library: قوالب ذكية لكل موقف",
+              "Sentiment Analysis: يكتشف الإيميلات العاجلة أو الغاضبة"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "solution_id": "AI-04",
+      "solution_name": "نظام تحليل البيانات وذكاء الأعمال",
+      "solution_name_en": "AI Business Analytics & Decision Support",
+      "short_description": "نظام يحلل مبيعاتك وزبائنك وأداءك، ويعطيك تقارير وتحذيرات وتوصيات ذكية – بدلاً من أن تغرق في الأرقام",
+      "replaces": "محلل بيانات / مستشار أعمال",
+      "packages": [
+        {
+          "package_id": "AI-04-BASIC",
+          "package_name": "التقارير الذكية",
+          "price": { "base": 350, "currency": "USD", "variable": true, "range_max": 600 },
+          "delivery_days": 7,
+          "revisions": 2,
+          "features": {
+            "general": [
+              "تقرير يومي/أسبوعي/شهري تلقائي",
+              "مؤشرات الأداء الرئيسية KPIs بشكل مرئي",
+              "مقارنة هذا الأسبوع بالأسبوع الماضي",
+              "أفضل المنتجات/الخدمات مبيعاً",
+              "يصلك التقرير على واتساب أو إيميل كل صباح"
+            ],
+            "data_sources": [
+              "Excel أو Google Sheets",
+              "Airtable أو Notion",
+              "ملفات CSV من أي نظام"
+            ],
+            "technical": [
+              "n8n لجمع البيانات وتنسيقها",
+              "AI لتلخيص الأرقام بجمل مفهومة",
+              "رسوم بيانية Charts تلقائية",
+              "إرسال تلقائي بجدول زمني محدد"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-04-ANALYST",
+          "package_name": "المحلل الذكي",
+          "badge": "اتخذ قراراتك بثقة",
+          "price": { "base": 800, "currency": "USD", "variable": true, "range_max": 1600 },
+          "delivery_days": 14,
+          "revisions": 4,
+          "features": {
+            "general": [
+              "كل مميزات باقة التقارير +",
+              "تحذيرات تلقائية عند انخفاض المبيعات أو الأداء",
+              "اكتشاف الأنماط: لماذا انخفضت المبيعات هذا الأسبوع؟",
+              "توقع المبيعات الأسبوع القادم بناءً على التاريخ",
+              "تحليل سلوك الزبائن: من يشتري أكثر؟ متى؟ ماذا؟",
+              "توصيات عملية: 'هذا المنتج راكد، فكر في تخفيض سعره'"
+            ],
+            "data_sources": [
+              "كل مصادر الباقة الأساسية +",
+              "Shopify / WooCommerce مباشرة",
+              "Google Analytics",
+              "Meta Ads / Google Ads",
+              "نظام نقاط البيع POS (حسب النوع)"
+            ],
+            "technical": [
+              "Dashboard تفاعلي (يمكنك السؤال بلغة طبيعية)",
+              "Anomaly Detection: يكتشف الشواذ تلقائياً",
+              "Forecasting بسيط بـ AI",
+              "Cohort Analysis لفهم الزبائن",
+              "نظام تنبيهات قابل للتخصيص"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-04-ADVISOR",
+          "package_name": "المستشار الرقمي الكامل",
+          "price": { "base": 2000, "currency": "USD", "variable": true, "range_max": 5000 },
+          "delivery_days": 30,
+          "revisions": "غير محدودة",
+          "features": {
+            "general": [
+              "كل مميزات باقة المحلل +",
+              "تسأله سؤالاً بالعربي ويعطيك الإجابة من بياناتك",
+              "مقارنة بالمنافسين (من بيانات عامة)",
+              "تحليل عائد الاستثمار ROI لكل حملة إعلانية",
+              "تحديد الزبائن الأكثر قيمة وأكثرهم عرضة للانسحاب",
+              "توصيات للمخزون: ماذا تشتري وبأي كمية",
+              "خريطة طريق نمو مبنية على بياناتك الحقيقية"
+            ],
+            "technical": [
+              "Chat Interface يسأل ويجاوب من بياناتك",
+              "Text-to-SQL يحول سؤالك لاستعلام قاعدة بيانات",
+              "Churn Prediction نموذج تنبؤ بمن سيترك",
+              "Customer Segmentation RFM تلقائي",
+              "Marketing Attribution متعدد القنوات",
+              "Data Pipeline آلي من مصادر متعددة",
+              "تقرير تنفيذي شهري للمديرين"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "solution_id": "AI-05",
+      "solution_name": "موظف المحتوى والسوشيال ميديا الآلي",
+      "solution_name_en": "AI Social Media & Content Employee",
+      "short_description": "نظام ينتج ويجدول وينشر محتواك على جميع منصاتك تلقائياً – يعمل كموظف محتوى متفرغ يعرف علامتك التجارية",
+      "replaces": "موظف سوشيال ميديا / منشئ محتوى",
+      "packages": [
+        {
+          "package_id": "AI-05-AUTO",
+          "package_name": "النشر التلقائي",
+          "price": { "base": 300, "currency": "USD", "variable": true, "range_max": 550 },
+          "delivery_days": 7,
+          "revisions": 2,
+          "features": {
+            "general": [
+              "نشر تلقائي على منصة واحدة (Facebook أو Instagram)",
+              "توليد المنشور بالذكاء الاصطناعي من قاعدة بياناتك",
+              "جدولة ذكية في أوقات الذروة",
+              "لا تكرار للمحتوى – النظام يتذكر ما نشر",
+              "هاشتاقات تلقائية مناسبة"
+            ],
+            "technical": [
+              "n8n Workflow كامل",
+              "Cerebras/Qwen للمسودة السريعة + GPT للمراجعة",
+              "قاعدة بيانات JSON للخدمات والمميزات",
+              "خوارزمية تنويع: كل منشور يختلف عن السابق",
+              "Facebook Graph API للنشر المباشر"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-05-CREATOR",
+          "package_name": "صانع المحتوى الذكي",
+          "badge": "الأفضل لأصحاب العمل",
+          "price": { "base": 700, "currency": "USD", "variable": true, "range_max": 1400 },
+          "delivery_days": 14,
+          "revisions": 4,
+          "features": {
+            "general": [
+              "كل مميزات النشر التلقائي +",
+              "يعمل على منصتين (Facebook + Instagram أو LinkedIn)",
+              "يكتب بأسلوبك الخاص بعد التدريب عليه",
+              "يولد صور احترافية مع النص (DALL-E أو Midjourney)",
+              "يتابع التعليقات ويرد تلقائياً على الأسئلة الشائعة",
+              "تقرير أداء أسبوعي (أكثر المنشورات تفاعلاً)"
+            ],
+            "technical": [
+              "Multi-platform Publisher",
+              "Image Generation مدمج",
+              "Comment Monitoring + Auto-reply",
+              "Tone of Voice Training",
+              "Content Calendar Dashboard"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-05-AGENCY",
+          "package_name": "فريق المحتوى الكامل",
+          "price": { "base": 1800, "currency": "USD", "variable": true, "range_max": 4000 },
+          "delivery_days": 21,
+          "revisions": "غير محدودة",
+          "features": {
+            "general": [
+              "كل مميزات الباقة الذكية +",
+              "كل المنصات (Facebook, Instagram, LinkedIn, TikTok, Twitter/X)",
+              "نظام وكلاء متعاونون: وكيل يبحث، وكيل يكتب، وكيل يراجع",
+              "محتوى متعدد الأشكال: نص + صور + Reels Script",
+              "حملات ترويجية دورية بمناسبات ومواسم",
+              "A/B Testing تلقائي للمنشورات",
+              "تحليل المنافسين وإنتاج محتوى مميز",
+              "إدارة الأزمات: يتعامل مع التعليقات السلبية بذكاء"
+            ],
+            "technical": [
+              "Multi-Agent System (Research + Write + Review + Post)",
+              "Competitive Intelligence Scraper",
+              "Trend Detection: يكتشف ما هو رائج ويستغله",
+              "Crisis Detection في التعليقات",
+              "Full Analytics Integration",
+              "Content Performance ML Optimization"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "solution_id": "AI-06",
+      "solution_name": "نظام الذكاء الاصطناعي الداخلي للشركة",
+      "solution_name_en": "Internal Company AI Assistant",
+      "short_description": "مساعد AI يعرف كل شيء عن شركتك – إجراءاتها، منتجاتها، عقودها – يساعد موظفيك في عملهم ويجيب على أسئلتهم فوراً",
+      "replaces": "ساعات البحث اليدوي في الوثائق والإجراءات",
+      "packages": [
+        {
+          "package_id": "AI-06-BASIC",
+          "package_name": "قاعدة المعرفة الداخلية",
+          "price": { "base": 400, "currency": "USD", "variable": true, "range_max": 700 },
+          "delivery_days": 10,
+          "revisions": 3,
+          "features": {
+            "general": [
+              "تحميل وثائق شركتك (إجراءات، سياسات، كتالوجات)",
+              "موظفوك يسألون بالعربي ويحصلون على إجابة فورية",
+              "يذكر المصدر الدقيق لكل إجابة",
+              "متاح على الموقع الداخلي أو واتساب الشركة"
+            ],
+            "technical": [
+              "RAG System على وثائق الشركة",
+              "دعم PDF, Word, Excel, PowerPoint",
+              "Vector Search دقيق",
+              "Access Control (ليس كل موظف يرى كل شيء)"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-06-SMART",
+          "package_name": "المساعد التشغيلي",
+          "badge": "يرفع إنتاجية الفريق",
+          "price": { "base": 1200, "currency": "USD", "variable": true, "range_max": 2500 },
+          "delivery_days": 20,
+          "revisions": 5,
+          "features": {
+            "general": [
+              "كل مميزات قاعدة المعرفة +",
+              "يساعد في كتابة العقود والتقارير والعروض",
+              "يلخص الاجتماعات ويستخرج المهام منها",
+              "يتابع المشاريع ويذكّر بالمهام المتأخرة",
+              "يجيب على أسئلة الموظفين الجدد فوراً",
+              "Dashboard لإدارة الوثائق والمعرفة"
+            ],
+            "technical": [
+              "Meeting Transcription + Summarization (Whisper)",
+              "Task Extraction من النصوص",
+              "ربط مع Notion أو Jira أو Monday.com",
+              "Template Generation للعقود والتقارير",
+              "Onboarding Bot للموظفين الجدد"
+            ]
+          }
+        },
+        {
+          "package_id": "AI-06-ENTERPRISE",
+          "package_name": "الشركة الذكية المتكاملة",
+          "price": { "base": 3500, "currency": "USD", "variable": true, "range_max": 8000 },
+          "delivery_days": 45,
+          "revisions": "غير محدودة",
+          "features": {
+            "general": [
+              "كل مميزات المساعد التشغيلي +",
+              "وكلاء متخصصون: HR, Finance, Sales, Operations",
+              "أتمتة العمليات الروتينية كاملاً",
+              "تقارير ذكية للمديرين يومياً",
+              "نظام مقترحات AI لتحسين الأداء",
+              "يعمل بالكامل محلياً (بيانات لا تغادر شبكتك)",
+              "دعم مخصص 6 أشهر"
+            ],
+            "technical": [
+              "Ollama Local Deployment (خصوصية كاملة)",
+              "Multi-Department Agent Architecture",
+              "Process Automation (إجازات، مصاريف، طلبات)",
+              "BI Integration كاملة",
+              "SSO مع Active Directory",
+              "Audit Trail كامل"
+            ]
+          }
+        }
+      ]
+    }
+
+  ],
+
+  "add_ons": [
+    { "name": "إضافة قناة تواصل جديدة (تيليغرام/ماسنجر/إنستغرام)", "price": 150, "unit": "USD" },
+    { "name": "تدريب نموذج AI على أسلوبك الخاص", "price": 400, "unit": "USD" },
+    { "name": "ربط بنظام ERP أو POS موجود", "price": 300, "unit": "USD+" },
+    { "name": "صيانة شهرية وتحديث الـ Workflows", "price": 80, "unit": "USD/شهر" },
+    { "name": "تقرير أداء شهري مفصّل", "price": 50, "unit": "USD/شهر" },
+    { "name": "Voice Bot (الرد الصوتي على المكالمات)", "price": 600, "unit": "USD+" }
+  ],
+
+  "publishing_keywords": [
+    "بوت واتساب", "ذكاء اصطناعي للأعمال", "أتمتة", "chatbot عربي",
+    "نظام حجز ذكي", "تحليل مبيعات AI", "موظف رقمي", "توفير التكاليف",
+    "n8n الجزائر", "ذكاء اصطناعي لمحلك", "بوت خدمة العملاء"
+  ],
+
+  "n8n_facebook_publisher_config": {
+    "workflow_name": "Facebook AI Content Publisher",
+    "data_sources": [
+      "service_01_frontend_templates.json",
+      "service_02_frontend_custom.json",
+      "service_03_fullstack.json",
+      "service_04_ai_business_solutions.json"
+    ],
+    "feature_selection_strategy": {
+      "avoid_repetition": "تتبع آخر 20 منشور – لا تكرر نفس الحل أو الميزة",
+      "rotation_logic": "تناوب: يوم AI حجز، يوم موقع، يوم تحليل بيانات، يوم بوت واتساب...",
+      "feature_mixing": "اختر مشكلة حقيقية يعانيها الزبون + الحل الذي نقدمه + ميزة تقنية واحدة + سعر للجذب",
+      "tone_rotation": "يوم: أسلوب قصة نجاح | يوم: أسلوب مشكلة وحل | يوم: أسلوب مقارنة (بدون AI vs مع AI) | يوم: أرقام وإحصائيات"
+    },
+    "models_for_generation": {
+      "fast_draft": "cerebras/qwen (مسودة سريعة)",
+      "quality_review": "github_models/gpt-4o (مراجعة وتحسين)",
+      "local_fallback": "ollama/qwen2.5 (بديل محلي)"
+    }
+  }
+}

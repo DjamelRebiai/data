@@ -1,0 +1,278 @@
+{
+  "service_id": "SRV-03",
+  "service_name": "تطوير الموقع الشامل – واجهة أمامية وخلفية",
+  "service_name_en": "Full Stack Web Development – Frontend + Backend",
+  "category": "fullstack",
+  "description": "بناء مواقع وتطبيقات ويب كاملة من الصفر – من تصميم الواجهة وكتابة API حتى قاعدة البيانات والنشر على السحابة",
+  "target_audience": [
+    "الشركات التي تحتاج نظام إدارة محتوى",
+    "المتاجر الإلكترونية المتقدمة",
+    "المنصات التعليمية والاشتراكية",
+    "تطبيقات SaaS الناشئة",
+    "بوابات الحجز والخدمات"
+  ],
+  "tech_stack_options": {
+    "frontend": ["Next.js", "Nuxt.js", "React.js", "Vue.js"],
+    "backend": ["Node.js + Express", "Node.js + Fastify", "Python + FastAPI", "Python + Django"],
+    "database": ["PostgreSQL", "MySQL", "MongoDB", "Supabase", "PlanetScale"],
+    "cache": ["Redis", "Upstash"],
+    "auth": ["NextAuth.js", "Clerk", "Auth0", "Supabase Auth"],
+    "storage": ["AWS S3", "Cloudinary", "Supabase Storage"],
+    "deployment": ["Vercel", "Railway", "Render", "AWS", "DigitalOcean", "VPS"]
+  },
+  "delivery_unit": "يوم عمل",
+  "packages": [
+    {
+      "package_id": "PKG-03-LAUNCH",
+      "package_name": "باقة الإطلاق",
+      "package_name_en": "Launch",
+      "badge": "للمشاريع الناشئة",
+      "price": {
+        "base": 600,
+        "currency": "USD",
+        "note": "يبدأ من – يتفاوت مع عدد الصفحات وتعقيد الـ API",
+        "variable": true,
+        "range_max": 1000
+      },
+      "delivery_days": 14,
+      "revisions": 3,
+      "features": {
+        "general": [
+          "موقع ويب كامل حتى 5 صفحات مع باك-إند أساسي",
+          "نظام تسجيل دخول وإنشاء حسابات",
+          "لوحة تحكم أساسية لإدارة المحتوى",
+          "قاعدة بيانات منظمة وآمنة",
+          "نشر على استضافة سحابية",
+          "دعم فني 30 يوماً",
+          "ملف توثيق API"
+        ],
+        "frontend_features": [
+          "تصميم Responsive احترافي",
+          "واجهة مستخدم سلسة بـ React/Next.js",
+          "نماذج بيانات مع التحقق من الصحة (Validation)",
+          "إشعارات وتنبيهات للمستخدم (Toast Notifications)",
+          "صفحات Loading و Error مخصصة",
+          "Protected Routes للمستخدمين المسجلين"
+        ],
+        "backend_features": [
+          "RESTful API موثق",
+          "نظام مصادقة JWT / Session",
+          "CRUD كامل للكيانات الرئيسية",
+          "Middleware للتحقق والحماية",
+          "معالجة الأخطاء Centralized Error Handling",
+          "Rate Limiting أساسي",
+          "تشفير كلمات المرور (bcrypt)",
+          "إرسال بريد إلكتروني تلقائي (مرحبًا، تأكيد الحساب)"
+        ],
+        "database_features": [
+          "تصميم Schema محسَّن",
+          "Migrations منظمة",
+          "Indexes على الحقول المطلوبة كثيراً",
+          "نسخ احتياطية يومية",
+          "Environment Variables آمنة"
+        ],
+        "security": [
+          "HTTPS إلزامي",
+          "CORS مضبوط بدقة",
+          "SQL Injection Protection",
+          "XSS Protection",
+          "Helmet.js Security Headers"
+        ],
+        "not_included": ["بوابة دفع", "نظام إشعارات Push", "API خارجية معقدة", "Microservices"]
+      }
+    },
+    {
+      "package_id": "PKG-03-GROWTH",
+      "package_name": "باقة النمو",
+      "package_name_en": "Growth",
+      "badge": "الأكثر اختياراً",
+      "price": {
+        "base": 1500,
+        "currency": "USD",
+        "note": "يبدأ من – السعر يُحدد بعد جلسة تحليل المتطلبات",
+        "variable": true,
+        "range_max": 3000
+      },
+      "delivery_days": 30,
+      "revisions": 5,
+      "features": {
+        "general": [
+          "كل مميزات باقة الإطلاق +",
+          "تطبيق ويب Full Stack حتى 15 صفحة/شاشة",
+          "لوحة تحكم Admin متقدمة مع إحصائيات",
+          "نظام أدوار المستخدمين (Admin, Manager, User)",
+          "تكامل بوابة دفع (Stripe أو PayPal أو محلية)",
+          "نظام إشعارات بالبريد الإلكتروني والـ SMS",
+          "تقرير أداء واختبار أمني أولي",
+          "دعم فني 60 يوماً"
+        ],
+        "frontend_features": [
+          "كل مزايا واجهة باقة الإطلاق +",
+          "State Management متقدم (Zustand أو Redux Toolkit)",
+          "Real-time Updates بـ WebSockets أو SSE",
+          "Data Tables متقدمة مع فرز وتصفية وتصدير",
+          "رفع ومعالجة الملفات والصور",
+          "رسوم بيانية وإحصائيات (Chart.js أو Recharts)",
+          "بحث متقدم مع Autocomplete",
+          "Infinite Scroll أو Pagination محسَّنة",
+          "Optimistic Updates لتجربة مستخدم أسرع",
+          "PWA مع إشعارات Push (اختياري)"
+        ],
+        "backend_features": [
+          "كل مزايا Backend باقة الإطلاق +",
+          "GraphQL أو REST API متقدم مع Filtering/Sorting/Pagination",
+          "نظام صلاحيات RBAC كامل",
+          "Job Queue للعمليات الثقيلة (Bull/BullMQ)",
+          "Webhooks للتكاملات الخارجية",
+          "File Upload مع معالجة وضغط الصور",
+          "نظام Audit Log لتتبع الأنشطة",
+          "API Versioning (v1, v2)",
+          "Swagger/OpenAPI Documentation كاملة",
+          "Health Check Endpoints",
+          "Graceful Shutdown"
+        ],
+        "database_features": [
+          "كل مزايا DB باقة الإطلاق +",
+          "Redis Cache للبيانات المتكررة",
+          "Full-Text Search (PostgreSQL FTS أو Algolia)",
+          "Database Transactions للعمليات الحرجة",
+          "Soft Delete للبيانات المهمة",
+          "Query Optimization وتحليل EXPLAIN",
+          "Read Replicas (للمشاريع الكبيرة)"
+        ],
+        "security": [
+          "كل أمان باقة الإطلاق +",
+          "2FA Two-Factor Authentication",
+          "OAuth2 (تسجيل بـ Google/GitHub)",
+          "IP Whitelisting لـ Admin Panel",
+          "Brute Force Protection",
+          "Content Security Policy كامل",
+          "GDPR / Data Privacy Compliance",
+          "Penetration Testing أساسي"
+        ],
+        "devops": [
+          "Docker Compose للبيئات",
+          "CI/CD Pipeline (GitHub Actions)",
+          "Environment Staging + Production",
+          "Automated Backups",
+          "Uptime Monitoring (UptimeRobot أو BetterUptime)",
+          "Error Tracking (Sentry)"
+        ]
+      }
+    },
+    {
+      "package_id": "PKG-03-SCALE",
+      "package_name": "باقة التوسع",
+      "package_name_en": "Scale",
+      "badge": "للمشاريع التجارية الكبيرة",
+      "price": {
+        "base": 4000,
+        "currency": "USD",
+        "note": "يبدأ من – السعر بعد تحليل معمق للمتطلبات والبنية التحتية",
+        "variable": true,
+        "range_max": 12000
+      },
+      "delivery_days": 60,
+      "revisions": "غير محدودة خلال فترة التطوير",
+      "features": {
+        "general": [
+          "كل مميزات باقة النمو +",
+          "معمارية Microservices أو Monolith قابل للتوسع",
+          "فريق تطوير (Frontend + Backend + DevOps)",
+          "Sprint-based Agile Development",
+          "متطلبات غير محدودة ضمن الميزانية المتفق عليها",
+          "Dedicated Project Manager",
+          "اجتماعات أسبوعية للمتابعة",
+          "دعم فني 6 أشهر",
+          "SLA مضمون 99.9% Uptime"
+        ],
+        "architecture": [
+          "Microservices Architecture مع API Gateway",
+          "Event-Driven Architecture بـ Kafka أو RabbitMQ",
+          "CQRS Pattern للفصل بين Read/Write",
+          "Domain-Driven Design (DDD)",
+          "Repository Pattern + Service Layer",
+          "Strangler Fig Pattern للتحجيم التدريجي"
+        ],
+        "frontend_features": [
+          "كل مزايا واجهة باقة النمو +",
+          "Micro-Frontend Architecture (Module Federation)",
+          "Performance Monitoring Real-time",
+          "A/B Testing Framework مدمج",
+          "Personalization Engine",
+          "Multi-tenant Support",
+          "White-label Options",
+          "Advanced Analytics Dashboard",
+          "Custom Component Library منشورة كـ npm package"
+        ],
+        "backend_features": [
+          "كل مزايا Backend باقة النمو +",
+          "API Gateway (Kong أو AWS API Gateway)",
+          "Service Mesh (Istio أو Linkerd)",
+          "gRPC للتواصل الداخلي بين الخدمات",
+          "Event Sourcing للبيانات الحرجة",
+          "Distributed Tracing (Jaeger أو Zipkin)",
+          "Circuit Breaker Pattern",
+          "Saga Pattern للمعاملات الموزعة",
+          "GraphQL Federation"
+        ],
+        "database_features": [
+          "كل مزايا DB باقة النمو +",
+          "Database Sharding للبيانات الضخمة",
+          "Multi-Region Replication",
+          "Time-Series Database للبيانات الزمنية",
+          "Vector Database للذكاء الاصطناعي (pgvector أو Pinecone)",
+          "Data Warehouse للتحليلات (ClickHouse أو BigQuery)",
+          "Automated Schema Migrations بدون Downtime"
+        ],
+        "devops_infra": [
+          "Kubernetes (K8s) Cluster",
+          "Helm Charts لإدارة النشر",
+          "Terraform لـ Infrastructure as Code",
+          "Multi-Environment (Dev, Staging, UAT, Prod)",
+          "Blue-Green Deployment بدون Downtime",
+          "Auto-scaling Horizontal & Vertical",
+          "CDN متعدد المناطق (CloudFront أو Fastly)",
+          "Centralized Logging (ELK Stack أو Loki)",
+          "Metrics & Alerting (Prometheus + Grafana)",
+          "Disaster Recovery Plan",
+          "Cost Optimization Monitoring"
+        ],
+        "security_enterprise": [
+          "Security Audit شامل",
+          "OWASP Top 10 Complete Coverage",
+          "WAF (Web Application Firewall)",
+          "DDoS Protection",
+          "Secret Management (Vault أو AWS Secrets Manager)",
+          "Compliance (ISO 27001 Ready, GDPR, HIPAA Ready)",
+          "Penetration Testing بتقرير كامل",
+          "Bug Bounty Program Setup"
+        ],
+        "deliverables": [
+          "كود المصدر الكامل موثق على GitHub Enterprise",
+          "Architecture Decision Records (ADRs)",
+          "API Documentation كاملة (Swagger + Postman Collection)",
+          "Runbooks لكل خدمة",
+          "Disaster Recovery Playbook",
+          "Performance Test Reports",
+          "Security Audit Report",
+          "Training للفريق التقني للعميل (حتى 3 جلسات)",
+          "Video Walkthrough للمشروع"
+        ]
+      }
+    }
+  ],
+  "add_ons": [
+    { "name": "تكامل بوابة دفع إضافية", "price": 200, "unit": "USD" },
+    { "name": "نظام حجز/مواعيد", "price": 300, "unit": "USD" },
+    { "name": "تطبيق موبايل (React Native)", "price": 1500, "unit": "USD+" },
+    { "name": "نظام الاشتراكات SaaS كامل", "price": 500, "unit": "USD" },
+    { "name": "تكامل ERP/CRM", "price": 400, "unit": "USD+" },
+    { "name": "Multi-tenant Setup", "price": 600, "unit": "USD" }
+  ],
+  "publishing_keywords": [
+    "تطوير Full Stack", "موقع متكامل", "Node.js", "Next.js", "قاعدة بيانات",
+    "تطبيق ويب", "SaaS", "لوحة تحكم", "API", "بوابة دفع", "تطوير احترافي",
+    "مطور Full Stack الجزائر"
+  ]
+}
