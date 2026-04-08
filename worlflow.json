@@ -127,7 +127,7 @@
     },
     {
       "parameters": {
-        "model": "qwen-3-32b",
+        "model": "llama3.3-70b",
         "prompt": "={{ $('Smart Selector').first().json.user_prompt }}",
         "systemMessage": "={{ $('Smart Selector').first().json.system_prompt }}",
         "options": {}
@@ -404,7 +404,7 @@
     },
     {
       "parameters": {
-        "model": "qwen-3-32b",
+        "model": "llama3.3-70b",
         "prompt": "={{ $('Smart Selector').first().json.user_prompt }}",
         "systemMessage": "={{ $('Smart Selector').first().json.system_prompt }}",
         "options": {}
