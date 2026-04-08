@@ -113,7 +113,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// ====== SMART SELECTOR — Brain of the system ======\nconst { services, config, stats } = $input.first().json;\n\n// 1. Choose Service (rotation)\nconst serviceOrder = ['SRV-01', 'SRV-02', 'SRV-03', 'SRV-04'];\nconst srvIndex = stats.service_rotation_index % serviceOrder.length;\nlet selectedService = services.find(s => s.service_id === serviceOrder[srvIndex]) || services[0];\n\n// 2. Choose Package (rotation)\nlet packages, solutionName = null;\nif (selectedService.packages) {\n  packages = selectedService.packages;\n} else if (selectedService.solutions) {\n  const solIndex = stats.package_rotation_index % selectedService.solutions.length;\n  const sol = selectedService.solutions[solIndex];\n  solutionName = sol.solution_name;\n  packages = sol.packages;\n}\nconst pkgIndex = stats.package_rotation_index % packages.length;\nconst selectedPackage = packages[pkgIndex];\n\n// 3. Choose Features (avoid last 20)\nconst recentFeatures = new Set();\nfor (const post of (stats.last_20_posts || [])) {\n  if (post.features) post.features.forEach(f => recentFeatures.add(f));\n}\nconst allFeatures = [];\nfor (const key of Object.keys(selectedPackage.features || {})) {\n  const feats = selectedPackage.features[key];\n  if (Array.isArray(feats)) feats.forEach(f => {\n    if (typeof f === 'string' && !f.startsWith('كل ')) allFeatures.push({ text: f, category: key });\n  });\n}\nlet available = allFeatures.filter(f => !recentFeatures.has(f.text));\nif (available.length < 3) available = allFeatures;\nconst shuffled = available.sort(() => Math.random() - 0.5);\nconst selectedFeatures = shuffled.slice(0, Math.floor(Math.random() * 3) + 3);\n\n// 4. Post Style (rotation)\nconst styleIndex = stats.style_rotation_index % config.post_styles.length;\nconst selectedStyle = config.post_styles[styleIndex];\n\n// 5. Keywords\nconst keywords = (selectedService.publishing_keywords || []).sort(() => Math.random() - 0.5).slice(0, 4);\n\n// 6. Build prompts\nconst svcName = selectedService.service_name;\nconst svcDesc = selectedService.description;\nconst pkgName = selectedPackage.package_name;\nconst pkgEn = selectedPackage.package_name_en || '';\nconst pkgBadge = selectedPackage.badge || '';\nconst price = selectedPackage.price;\nconst delivery = selectedPackage.delivery_days;\nconst audience = (selectedService.target_audience || []).join(', ');\nconst featText = selectedFeatures.map((f, i) => (i+1) + '. ' + f.text).join('\\n');\n\nconst user_prompt = `اكتب منشور فايسبوك احترافي.\\n\\nالخدمة: ${svcName}\\nالوصف: ${svcDesc}${solutionName ? '\\nالحل: ' + solutionName : ''}\\nالباقة: ${pkgName} (${pkgEn})${pkgBadge ? ' — ' + pkgBadge : ''}\\nالسعر: يبدأ من ${price.base} ${price.currency}\\nالتسليم: ${delivery} يوم عمل\\n\\nالميزات المختارة:\\n${featText}\\n\\nأسلوب: ${selectedStyle.name_ar}\\nتعليمات: ${selectedStyle.prompt_instruction}\\n\\nكلمات مفتاحية: ${keywords.join(', ')}\\n\\nالجمهور: ${audience}`;\n\nconst system_prompt = `أنت خبير تسويق رقمي متخصص في كتابة منشورات فايسبوك بالعربية. ${config.ai_instructions.brand_voice}. القواعد: ${config.ai_instructions.general_rules.join(' | ')}`;\n\nreturn [{ json: {\n  selected_service: { id: selectedService.service_id, name: svcName, name_en: selectedService.service_name_en, description: svcDesc, target_audience: selectedService.target_audience, solution_name: solutionName },\n  selected_package: { id: selectedPackage.package_id, name: pkgName, name_en: pkgEn, badge: pkgBadge, price, delivery_days: delivery },\n  all_packages: packages,\n  selected_features: selectedFeatures.map(f => f.text),\n  post_style: selectedStyle,\n  keywords,\n  user_prompt,\n  system_prompt,\n  new_rotation: { service_rotation_index: srvIndex + 1, style_rotation_index: styleIndex + 1, package_rotation_index: pkgIndex + 1 },\n  config\n} }];"
+        "jsCode": "// ====== SMART SELECTOR — Brain of the system ======\nconst { services, config, stats } = $input.first().json;\n\n// 1. Choose Service (rotation)\nconst serviceOrder = ['SRV-01', 'SRV-02', 'SRV-03', 'SRV-04'];\nconst srvIndex = stats.service_rotation_index % serviceOrder.length;\nlet selectedService = services.find(s => s.service_id === serviceOrder[srvIndex]) || services[0];\n\n// 2. Choose Package (rotation)\nlet packages, solutionName = null;\nif (selectedService.packages) {\n  packages = selectedService.packages;\n} else if (selectedService.solutions) {\n  const solIndex = stats.package_rotation_index % selectedService.solutions.length;\n  const sol = selectedService.solutions[solIndex];\n  solutionName = sol.solution_name;\n  packages = sol.packages;\n}\nconst pkgIndex = stats.package_rotation_index % packages.length;\nconst selectedPackage = packages[pkgIndex];\n\n// 3. Choose Features (avoid last 20)\nconst recentFeatures = new Set();\nfor (const post of (stats.last_20_posts || [])) {\n  if (post.features) post.features.forEach(f => recentFeatures.add(f));\n}\nconst allFeatures = [];\nfor (const key of Object.keys(selectedPackage.features || {})) {\n  const feats = selectedPackage.features[key];\n  if (Array.isArray(feats)) feats.forEach(f => {\n    if (typeof f === 'string' && !f.startsWith('كل ')) allFeatures.push({ text: f, category: key });\n  });\n}\nlet available = allFeatures.filter(f => !recentFeatures.has(f.text));\nif (available.length < 3) available = allFeatures;\nconst shuffled = available.sort(() => Math.random() - 0.5);\nconst selectedFeatures = shuffled.slice(0, Math.floor(Math.random() * 3) + 3);\n\n// 4. Post Style (rotation)\nconst styleIndex = stats.style_rotation_index % config.post_styles.length;\nconst selectedStyle = config.post_styles[styleIndex];\n\n// 5. Keywords\nconst keywords = (selectedService.publishing_keywords || []).sort(() => Math.random() - 0.5).slice(0, 4);\n\n// 6. Build prompts\nconst svcName = selectedService.service_name;\nconst svcDesc = selectedService.description;\nconst pkgName = selectedPackage.package_name;\nconst pkgEn = selectedPackage.package_name_en || '';\nconst pkgBadge = selectedPackage.badge || '';\nconst price = selectedPackage.price;\nconst delivery = selectedPackage.delivery_days;\nconst audience = (selectedService.target_audience || []).join(', ');\nconst featText = selectedFeatures.map((f, i) => (i+1) + '. ' + f.text).join('\\n');\n\nconst user_prompt = `اكتب منشور فايسبوك احترافي.\\n\\nالخدمة: ${svcName}\\nالوصف: ${svcDesc}${solutionName ? '\\nالحل: ' + solutionName : ''}\\nالباقة: ${pkgName} (${pkgEn})${pkgBadge ? ' — ' + pkgBadge : ''}\\nالسعر: يبدأ من ${price.base} ${price.currency}\\nالتسليم: ${delivery} يوم عمل\\n\\nالميزات المختارة:\\n${featText}\\n\\nأسلوب: ${selectedStyle.name_ar}\\nتعليمات: ${selectedStyle.prompt_instruction}\\n\\nكلمات مفتاحية: ${keywords.join(', ')}\\n\\nالجمهور: ${audience}`;\n\nconst system_prompt = `أنت خبير تسويق رقمي متخصص في كتابة منشورات فايسبوك بالعربية. ${config.ai_instructions.brand_voice}. القواعد: ${config.ai_instructions.general_rules.join(' | ')}`;\n\nreturn [{ json: {\n  selected_service: { id: selectedService.service_id, name: svcName, name_en: selectedService.service_name_en, description: svcDesc, target_audience: selectedService.target_audience, solution_name: solutionName },\n  selected_package: { id: selectedPackage.package_id, name: pkgName, name_en: pkgEn, badge: pkgBadge, price, delivery_days: delivery },\n  all_packages: packages,\n  selected_features: selectedFeatures.map(f => f.text),\n  post_style: selectedStyle,\n  keywords,\n  user_prompt,\n  system_prompt,\n  \n  html_design_route: Math.floor(Math.random() * 3) + 1,\n  ai_makeover_route: Math.floor(Math.random() * 2) + 1,\n  new_rotation: { service_rotation_index: srvIndex + 1, style_rotation_index: styleIndex + 1, package_rotation_index: pkgIndex + 1 },\n  config\n} }];"
       },
       "id": "ec3cab2a-d78d-42f2-b5c5-a7f1d44a391a",
       "name": "Smart Selector",
@@ -389,42 +389,15 @@
             {
               "conditions": {
                 "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
+                  "typeValidation": "none"
                 },
                 "conditions": [
                   {
-                    "leftValue": "",
-                    "rightValue": "={{ Math.floor(Math.random() * 3) + 1 }}",
+                    "leftValue": "={{ $json.html_design_route }}",
+                    "rightValue": 1,
                     "operator": {
-                      "type": "string",
+                      "type": "number",
                       "operation": "equals"
-                    },
-                    "id": "fd604789-93ab-4671-b32b-e3b13bc37255"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "2fb671a9-6f02-41da-9f54-fc9e8fc31a9a",
-                    "leftValue": "",
-                    "rightValue": "={{ Math.floor(Math.random() * 3) + 1 }}",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
                     }
                   }
                 ],
@@ -434,20 +407,33 @@
             {
               "conditions": {
                 "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
+                  "typeValidation": "none"
                 },
                 "conditions": [
                   {
-                    "id": "3cb7a6d5-6ae4-4d0e-87ca-13fc3bea4134",
-                    "leftValue": "",
-                    "rightValue": "={{ Math.floor(Math.random() * 3) + 1 }}",
+                    "leftValue": "={{ $json.html_design_route }}",
+                    "rightValue": 2,
                     "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "typeValidation": "none"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.html_design_route }}",
+                    "rightValue": 3,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
                     }
                   }
                 ],
@@ -474,20 +460,16 @@
             {
               "conditions": {
                 "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
+                  "typeValidation": "none"
                 },
                 "conditions": [
                   {
-                    "leftValue": "",
-                    "rightValue": "={{ Math.floor(Math.random() * 2) + 1 }}",
+                    "leftValue": "={{ $json.ai_makeover_route }}",
+                    "rightValue": 1,
                     "operator": {
-                      "type": "string",
+                      "type": "number",
                       "operation": "equals"
-                    },
-                    "id": "fd604789-93ab-4671-b32b-e3b13bc37255"
+                    }
                   }
                 ],
                 "combinator": "and"
@@ -496,20 +478,15 @@
             {
               "conditions": {
                 "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
+                  "typeValidation": "none"
                 },
                 "conditions": [
                   {
-                    "id": "31f0d971-d636-4369-8017-7f4843cb01dc",
-                    "leftValue": "",
-                    "rightValue": "={{ Math.floor(Math.random() * 2) + 1 }}",
+                    "leftValue": "={{ $json.ai_makeover_route }}",
+                    "rightValue": 2,
                     "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
+                      "type": "number",
+                      "operation": "equals"
                     }
                   }
                 ],
