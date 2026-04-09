@@ -10,10 +10,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        7296,
-        7120
+        8224,
+        7824
       ],
-      "id": "61c7cdef-a114-4a75-807a-687b42ae017f",
+      "id": "a2fd2aea-0d21-4ab8-b35a-78a57f2d6a5d",
       "name": "Webhook",
       "webhookId": "21957c81-49e4-480d-a035-78cd3711547c"
     },
@@ -33,13 +33,13 @@
           ]
         }
       },
-      "id": "2558867a-ab89-4d21-b00c-5be13dc5a06b",
+      "id": "cd64a04d-644b-4905-a994-ef5f2e425310",
       "name": "Schedule Trigger",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        7296,
-        7312
+        8224,
+        8016
       ]
     },
     {
@@ -50,10 +50,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        7520,
-        7216
+        8448,
+        7920
       ],
-      "id": "56a077af-b97a-47fb-bcb1-5fe98403023a",
+      "id": "09a9079c-d40a-41e0-88ab-b71688a92447",
       "name": "Fetch Templates"
     },
     {
@@ -64,10 +64,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        7744,
-        7216
+        8672,
+        7920
       ],
-      "id": "bd8e952e-7364-4d03-8b6e-d195e705a3df",
+      "id": "7e877e0f-cee8-4227-906b-826efe2f45fa",
       "name": "Fetch Custom"
     },
     {
@@ -78,10 +78,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        7968,
-        7216
+        8896,
+        7920
       ],
-      "id": "c5b5f3a3-19f8-4d1e-83ba-deb02cf8c722",
+      "id": "1ef3a7de-c15b-4a8e-9bb4-7ff0eb3e05a0",
       "name": "Fetch Fullstack"
     },
     {
@@ -92,36 +92,36 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        8192,
-        7216
+        9120,
+        7920
       ],
-      "id": "ba31c3ad-e289-4285-8dbd-9f4692f1c54d",
+      "id": "d57b8189-4374-43d3-ab34-2fdf571ba455",
       "name": "Fetch AI Solutions"
     },
     {
       "parameters": {
         "jsCode": "// ====== Prepare Data: Combine 4 services + Static Data + Config ======\n// Sequential chain guarantees all HTTP nodes have completed\n\n// Helper: Safely parse JSON in case GitHub Raw returns text wrapped in a { data: '...' } object\nfunction parseSrv(srv) {\n  if (typeof srv === 'string') return JSON.parse(srv);\n  if (srv && srv.data && typeof srv.data === 'string') return JSON.parse(srv.data);\n  return srv;\n}\n\nconst srv01 = parseSrv($('Fetch Templates').first().json);\nconst srv02 = parseSrv($('Fetch Custom').first().json);\nconst srv03 = parseSrv($('Fetch Fullstack').first().json);\nconst srv04 = parseSrv($('Fetch AI Solutions').first().json);\nconst services = [srv01, srv02, srv03, srv04];\n\n// Load Stats from n8n Static Data (auto-persists)\nconst staticData = $getWorkflowStaticData('global');\nif (!staticData.stats) {\n  staticData.stats = {\n    total_posts: 0,\n    service_rotation_index: 0,\n    style_rotation_index: 0,\n    package_rotation_index: 0,\n    last_20_posts: [],\n    feature_usage: {}\n  };\n}\n\nconst config = {\n  post_styles: [\n    { id: 'success_story', name_ar: 'قصة نجاح', prompt_instruction: 'اكتب المنشور كقصة نجاح لزبون استخدم خدمتنا. ابدأ بمشكلة كان يعانيها، ثم كيف حلّيناها، ثم النتيجة المبهرة. استخدم أسلوب حواري ومشوّق.' },\n    { id: 'problem_solution', name_ar: 'مشكلة وحل', prompt_instruction: 'ابدأ بطرح مشكلة شائعة يعانيها أصحاب الأعمال، ثم اعرض الحل الذي نقدمه مع الميزات التقنية. اجعل القارئ يشعر بأنه يحتاج هذا الحل فوراً.' },\n    { id: 'comparison', name_ar: 'مقارنة: بدون خدمتنا vs مع خدمتنا', prompt_instruction: 'اكتب كمقارنة بين الحالة بدون خدمتنا والحالة مع خدمتنا. استخدم إيموجي ❌ و ✅.' },\n    { id: 'stats_facts', name_ar: 'أرقام وإحصائيات', prompt_instruction: 'ابدأ بأرقام وإحصائيات مقنعة عن المجال. ثم اربطها بخدمتنا. اجعل الأرقام بارزة ومؤثرة.' }\n  ],\n  ai_instructions: {\n    general_rules: ['اكتب بالعربية الفصحى البسيطة مع لمسة دارجة جزائرية خفيفة', 'طول المنشور: 150-300 كلمة', 'استخدم إيموجي (3-6)', 'اختم بدعوة للتواصل CTA مع إضافة أرقام التواصل (WhatsApp: +213799678938 | Email: contactstudiocodecraft@gmail.com)', 'اذكر السعر (يبدأ من...)', 'لا تذكر المنافسين', '3-5 هاشتاقات في النهاية'],\n    brand_voice: 'أسلوب احترافي ومحترم لكن قريب من الناس، يجمع بين الخبرة التقنية والبساطة في الشرح'\n  },\n  facebook: { page_id: 'YOUR_PAGE_ID' }\n};\n\nreturn [{ json: { services, stats: staticData.stats, config } }];\n"
       },
-      "id": "06817668-cffb-48ea-be76-9be8a309f4d2",
+      "id": "f67f072b-d3d2-43e5-81d6-b68f04416b9b",
       "name": "Prepare Data",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        8416,
-        7216
+        9344,
+        7920
       ]
     },
     {
       "parameters": {
         "jsCode": "// ====== SMART SELECTOR — Brain of the system ======\nconst { services, config, stats } = $input.first().json;\n\n// 1. Choose Service (rotation)\nconst serviceOrder = ['SRV-01', 'SRV-02', 'SRV-03', 'SRV-04'];\nconst srvIndex = stats.service_rotation_index % serviceOrder.length;\nlet selectedService = services.find(s => s.service_id === serviceOrder[srvIndex]) || services[0];\n\n// 2. Choose Package (rotation)\nlet packages, solutionName = null;\nif (selectedService.packages) {\n  packages = selectedService.packages;\n} else if (selectedService.solutions) {\n  const solIndex = stats.package_rotation_index % selectedService.solutions.length;\n  const sol = selectedService.solutions[solIndex];\n  solutionName = sol.solution_name;\n  packages = sol.packages;\n}\nconst pkgIndex = stats.package_rotation_index % packages.length;\nconst selectedPackage = packages[pkgIndex];\n\n// 3. Choose Features (avoid last 20)\nconst recentFeatures = new Set();\nfor (const post of (stats.last_20_posts || [])) {\n  if (post.features) post.features.forEach(f => recentFeatures.add(f));\n}\nconst allFeatures = [];\nfor (const key of Object.keys(selectedPackage.features || {})) {\n  const feats = selectedPackage.features[key];\n  if (Array.isArray(feats)) feats.forEach(f => {\n    if (typeof f === 'string' && !f.startsWith('كل ')) allFeatures.push({ text: f, category: key });\n  });\n}\nlet available = allFeatures.filter(f => !recentFeatures.has(f.text));\nif (available.length < 3) available = allFeatures;\nconst shuffled = available.sort(() => Math.random() - 0.5);\nconst selectedFeatures = shuffled.slice(0, Math.floor(Math.random() * 3) + 3);\n\n// 4. Post Style (rotation)\nconst styleIndex = stats.style_rotation_index % config.post_styles.length;\nconst selectedStyle = config.post_styles[styleIndex];\n\n// 5. Keywords\nconst keywords = (selectedService.publishing_keywords || []).sort(() => Math.random() - 0.5).slice(0, 4);\n\n// 6. Build prompts\nconst svcName = selectedService.service_name;\nconst svcDesc = selectedService.description;\nconst pkgName = selectedPackage.package_name;\nconst pkgEn = selectedPackage.package_name_en || '';\nconst pkgBadge = selectedPackage.badge || '';\nconst price = selectedPackage.price;\nconst delivery = selectedPackage.delivery_days;\nconst audience = (selectedService.target_audience || []).join(', ');\nconst featText = selectedFeatures.map((f, i) => (i+1) + '. ' + f.text).join('\\n');\n\nconst user_prompt = `اكتب منشور فايسبوك احترافي.\\n\\nالخدمة: ${svcName}\\nالوصف: ${svcDesc}${solutionName ? '\\nالحل: ' + solutionName : ''}\\nالباقة: ${pkgName} (${pkgEn})${pkgBadge ? ' — ' + pkgBadge : ''}\\nالسعر: يبدأ من ${price.base} ${price.currency}\\nالتسليم: ${delivery} يوم عمل\\n\\nالميزات المختارة:\\n${featText}\\n\\nأسلوب: ${selectedStyle.name_ar}\\nتعليمات: ${selectedStyle.prompt_instruction}\\n\\nكلمات مفتاحية: ${keywords.join(', ')}\\n\\nالجمهور: ${audience}`;\n\nconst system_prompt = `أنت خبير تسويق رقمي متخصص في كتابة منشورات فايسبوك بالعربية. ${config.ai_instructions.brand_voice}. القواعد: ${config.ai_instructions.general_rules.join(' | ')}`;\n\nreturn [{ json: {\n  selected_service: { id: selectedService.service_id, name: svcName, name_en: selectedService.service_name_en, description: svcDesc, target_audience: selectedService.target_audience, solution_name: solutionName },\n  selected_package: { id: selectedPackage.package_id, name: pkgName, name_en: pkgEn, badge: pkgBadge, price, delivery_days: delivery },\n  all_packages: packages,\n  selected_features: selectedFeatures.map(f => f.text),\n  post_style: selectedStyle,\n  keywords,\n  user_prompt,\n  system_prompt,\n  \n  html_design_route: Math.floor(Math.random() * 3) + 1,\n  ai_makeover_route: Math.floor(Math.random() * 2) + 1,\n  new_rotation: { service_rotation_index: srvIndex + 1, style_rotation_index: styleIndex + 1, package_rotation_index: pkgIndex + 1 },\n  config\n} }];"
       },
-      "id": "ec3cab2a-d78d-42f2-b5c5-a7f1d44a391a",
+      "id": "65f8c57c-4b46-40b0-8231-e1bacefe4c79",
       "name": "Smart Selector",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        8640,
-        7216
+        9568,
+        7920
       ]
     },
     {
@@ -134,10 +134,10 @@
       "type": "n8n-nodes-cerebras-api.cerebrasChatModel",
       "typeVersion": 1,
       "position": [
-        10208,
-        7216
+        11136,
+        7920
       ],
-      "id": "809b1470-a485-4e61-b378-4260768a3ac9",
+      "id": "4d142665-7aaf-49a8-86b0-7a450474b768",
       "name": "Cerebras Chat Model",
       "credentials": {
         "cerebrasApi": {
@@ -150,13 +150,13 @@
       "parameters": {
         "jsCode": "// ====== Extract Draft: Normalize Cerebras output ======\nconst input = $input.first().json;\nconst draft = input.response || input.text || input.output || input.content || input.message || input.result || (input.choices && input.choices[0] && input.choices[0].message && input.choices[0].message.content) || JSON.stringify(input);\nreturn [{ json: { draft } }];"
       },
-      "id": "9d5ca4b5-21ea-4881-ac9a-6a5acecb3997",
+      "id": "dbd78a06-0b83-4f42-9105-c9d70e033797",
       "name": "Extract Draft",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        10432,
-        7216
+        11360,
+        7920
       ]
     },
     {
@@ -189,10 +189,10 @@
       "type": "n8n-nodes-gh-models.ghModelsNode",
       "typeVersion": 1,
       "position": [
-        10656,
-        7216
+        11584,
+        7920
       ],
-      "id": "ac6ad304-bd29-4359-a2c8-741ac4980345",
+      "id": "c790ac07-deef-4cad-9fac-bd2b6ffa8558",
       "name": "GH Models Review",
       "credentials": {
         "ghModelsNodeCredentialsApi": {
@@ -205,63 +205,42 @@
       "parameters": {
         "jsCode": "// ====== Extract Final Post & Image URL ======\nconst input = $input.first().json;\nconst final_post = input.response || input.text || input.output || input.content || input.message || input.result || (input.choices && input.choices[0] && input.choices[0].message && input.choices[0].message.content) || JSON.stringify(input);\n\nlet image_url = null;\ntry {\n  const n1 = $('HTML/CSS to Image').first();\n  if (n1 && n1.json) image_url = n1.json.image_url || n1.json.url;\n} catch(e) {}\n\nif (!image_url) {\n  try {\n    const n2 = $('HTML/CSS to Image1').first();\n    if (n2 && n2.json) image_url = n2.json.image_url || n2.json.url;\n  } catch(e) {}\n}\n\nreturn [{ json: { final_post, image_url } }];\n"
       },
-      "id": "b001b7f3-8bb9-423b-9a22-f3dc7a072d1b",
+      "id": "2aa21043-1f0b-4493-b536-31a4c5ce622a",
       "name": "Extract Final Post",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        10880,
-        7216
+        11808,
+        7920
       ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ 'https://graph.facebook.com/v21.0/' + $('Prepare Data').first().json.config.facebook.page_id + '/photos' }}",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ message: $json.final_post, url: $json.image_url }) }}",
-        "options": {
-          "timeout": 15000
-        }
-      },
-      "id": "8f50182d-4244-40df-80e5-3ee0a4b18fb8",
-      "name": "Publish to Facebook",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        11104,
-        7216
-      ],
-      "disabled": true
     },
     {
       "parameters": {
         "jsCode": "// ====== Update Stats in Static Data ======\nconst staticData = $getWorkflowStaticData('global');\nconst selector = $('Smart Selector').first().json;\nconst fbResponse = $input.first().json;\n\nif (!staticData.stats) {\n  staticData.stats = { total_posts: 0, service_rotation_index: 0, style_rotation_index: 0, package_rotation_index: 0, last_20_posts: [], feature_usage: {} };\n}\nconst stats = staticData.stats;\nstats.total_posts += 1;\nstats.service_rotation_index = selector.new_rotation.service_rotation_index;\nstats.style_rotation_index = selector.new_rotation.style_rotation_index;\nstats.package_rotation_index = selector.new_rotation.package_rotation_index;\n\nstats.last_20_posts.unshift({\n  post_number: stats.total_posts,\n  service_id: selector.selected_service.id,\n  service_name: selector.selected_service.name,\n  package_id: selector.selected_package.id,\n  package_name: selector.selected_package.name,\n  features: selector.selected_features,\n  style: selector.post_style.id,\n  published_at: new Date().toISOString()\n});\nif (stats.last_20_posts.length > 20) stats.last_20_posts = stats.last_20_posts.slice(0, 20);\nfor (const f of selector.selected_features) stats.feature_usage[f] = (stats.feature_usage[f] || 0) + 1;\nstats.last_updated = new Date().toISOString();\n\nreturn [{ json: { status: 'success', post_number: stats.total_posts, service: selector.selected_service.name, package_name: selector.selected_package.name, features_count: selector.selected_features.length, style: selector.post_style.name_ar } }];"
       },
-      "id": "3b9e7d63-f3e1-4a52-9ea5-f121c0ae114f",
+      "id": "93e4f6ff-9ff4-4f00-8fdc-356ed1724c62",
       "name": "Update Stats",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        11328,
-        7216
-      ]
+        12256,
+        7920
+      ],
+      "disabled": true
     },
     {
       "parameters": {
         "jsCode": "const result = $input.first().json;\nreturn [{ json: { ...result, timestamp: new Date().toISOString(), log: `✅ Post #${result.post_number} | ${result.service} | ${result.package_name} | ${result.style}` } }];"
       },
-      "id": "c85310d1-2784-4dc9-a52f-e19b46d685f9",
+      "id": "85376adf-27ed-4f40-98e8-269230ca6cc1",
       "name": "Log Result",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        11552,
-        7216
-      ]
+        12480,
+        7920
+      ],
+      "disabled": true
     },
     {
       "parameters": {
@@ -270,10 +249,10 @@
       "type": "n8n-nodes-htmlcsstoimage.htmlCssToImage",
       "typeVersion": 1,
       "position": [
-        9984,
-        7120
+        10912,
+        7824
       ],
-      "id": "7c3f62ca-98e6-4773-b0be-cd502fd207b7",
+      "id": "921a17bd-5541-426d-a0c1-c5c26d552413",
       "name": "HTML/CSS to Image",
       "credentials": {
         "htmlcsstoimgApi": {
@@ -312,10 +291,10 @@
       "type": "n8n-nodes-gh-models.ghModelsNode",
       "typeVersion": 1,
       "position": [
-        9760,
-        7312
+        10688,
+        8016
       ],
-      "id": "fd5dcd1a-b338-456c-abf3-5b4a126bda4f",
+      "id": "6317ca1f-7c4c-4709-b2ac-b08681bd8b92",
       "name": "GH Models Review1",
       "credentials": {
         "ghModelsNodeCredentialsApi": {
@@ -331,10 +310,10 @@
       "type": "n8n-nodes-htmlcsstoimage.htmlCssToImage",
       "typeVersion": 1,
       "position": [
-        9984,
-        7312
+        10912,
+        8016
       ],
-      "id": "02339c0d-bfda-4c59-8454-40c02f19815c",
+      "id": "9e4317c0-525c-4917-9895-5485eda7c4d6",
       "name": "HTML/CSS to Image1",
       "credentials": {
         "htmlcsstoimgApi": {
@@ -347,39 +326,39 @@
       "parameters": {
         "jsCode": "// ====== Design 1: Neon Glassmorphism ======\nconst selector = $input.first().json;\nconst packages = selector.all_packages || [];\nconst svcName = selector.selected_service.name || \"الخدمة\";\nconst svcDesc = selector.selected_service.description || \"\";\n\n// Neon Themes\nconst themes = [\n  { bg: '#09090b', hl: '#10b981', glow: 'rgba(16,185,129,0.5)', card: 'rgba(255,255,255,0.03)' }, // Neon Emerald\n  { bg: '#050b14', hl: '#3b82f6', glow: 'rgba(59,130,246,0.5)', card: 'rgba(255,255,255,0.03)' }, // Cyber Blue\n  { bg: '#0f0a14', hl: '#8b5cf6', glow: 'rgba(139,92,246,0.5)', card: 'rgba(255,255,255,0.03)' }, // Synthwave Purple\n  { bg: '#140a0a', hl: '#f43f5e', glow: 'rgba(244,63,94,0.5)', card: 'rgba(255,255,255,0.03)' }  // Neon Rose\n];\n\nconst randFactor = (selector.new_rotation?.service_rotation_index || 0) + (selector.new_rotation?.package_rotation_index || 0);\nconst theme = themes[randFactor % themes.length];\n\nfunction getFeatures(pkg) {\n  const feats = pkg.features || {};\n  let techFeats = feats.technical || feats.technical_security || feats.technology_stack || feats.backend_features || feats.security_performance || [];\n  let genFeats = feats.general || feats.business_features || [];\n\n  const general = genFeats.filter(f => typeof f === 'string' && !f.startsWith('كل ')).slice(0, 4);\n  const technical = techFeats.filter(f => typeof f === 'string' && !f.startsWith('كل ')).slice(0, 3);\n  const notIncl = (feats.not_included || []).slice(0, 2);\n  return { general, technical, notIncl };\n}\n\nlet cardsHtml = '';\npackages.forEach((pkg, idx) => {\n  const isMid = idx === 1 || (packages.length === 2 && idx === 1);\n  const border = isMid ? theme.hl : 'rgba(255,255,255,0.1)';\n  const bg = isMid ? `linear-gradient(180deg, rgba(255,255,255,0.08) 0%, ${theme.card} 100%)` : theme.card;\n  const shadow = isMid ? `box-shadow: 0 0 30px ${theme.glow}, inset 0 0 20px rgba(255,255,255,0.05);` : 'box-shadow: 0 10px 30px rgba(0,0,0,0.5);';\n  const scale = isMid ? 'transform:scale(1.08); z-index:10;' : 'transform:scale(0.98); opacity:0.85;';\n  const { general, technical, notIncl } = getFeatures(pkg);\n  const rev = typeof pkg.revisions === 'number' ? pkg.revisions + ' مراجعات' : (pkg.revisions || 'غير محدد');\n\n  cardsHtml += `<div style=\"flex:1; background:${bg}; border-radius:24px; padding:35px 25px; border:1px solid ${border}; ${scale} ${shadow} position:relative; backdrop-filter:blur(12px);\">`;\n  \n  if (pkg.badge) {\n    cardsHtml += `<div style=\"position:absolute; top:-15px; left:50%; transform:translateX(-50%); background:linear-gradient(90deg, #fff, ${theme.hl}); color:#000; padding:6px 20px; border-radius:30px; font-size:14px; font-weight:900; box-shadow:0 5px 15px ${theme.glow}; letter-spacing:1px;\">★ ${pkg.badge} ★</div>`;\n  } else {\n    cardsHtml += `<div style=\"height:15px;\"></div>`;\n  }\n  \n  cardsHtml += `<h3 style=\"text-align:center; margin:20px 0 5px; font-size:24px; color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.8);\">${pkg.package_name}</h3>`;\n  cardsHtml += `<p style=\"text-align:center; color:#888; font-size:14px; margin:0 0 20px; text-transform:uppercase; letter-spacing:2px;\">${pkg.package_name_en || 'PACKAGE'}</p>`;\n  cardsHtml += `<div style=\"text-align:center; margin-bottom:15px;\"><span style=\"font-size:48px; font-weight:900; color:${theme.hl}; text-shadow: 0 0 15px ${theme.glow};\">$${pkg.price.base}</span></div>`;\n  cardsHtml += `<div style=\"background:rgba(0,0,0,0.4); border-radius:12px; padding:10px; text-align:center; font-size:13px; color:#ccc; margin-bottom:20px;\">◷ ${pkg.delivery_days} أيام &nbsp;|&nbsp; ⟳ ${rev}</div>`;\n  \n  general.forEach(f => { cardsHtml += `<p style=\"font-size:14px; line-height:1.6; margin:10px 0; color:#fff;\">✔ <span style=\"margin-right:8px;\">${f}</span></p>`; });\n  technical.forEach(f => { cardsHtml += `<p style=\"font-size:14px; line-height:1.6; margin:10px 0; color:${theme.hl};\">✦ <span style=\"margin-right:8px;\">${f}</span></p>`; });\n  notIncl.forEach(f => { cardsHtml += `<p style=\"font-size:14px; line-height:1.6; margin:10px 0; color:#555; text-decoration:line-through;\">✖ <span style=\"margin-right:8px;\">${f}</span></p>`; });\n  \n  cardsHtml += '</div>';\n});\n\nconst html = `<div style=\"font-family:'Segoe UI',Tahoma,sans-serif; direction:rtl; width:1080px; height:1080px; box-sizing:border-box; padding:60px 50px; background:radial-gradient(circle at 50% 0%, rgba(255,255,255,0.05) 0%, ${theme.bg} 70%); color:#fff; position:relative; overflow:hidden;\">\n  <div style=\"position:absolute; top:-150px; left:-150px; width:400px; height:400px; background:${theme.hl}; filter:blur(150px); opacity:0.15; z-index:0;\"></div>\n  <div style=\"position:absolute; bottom:-150px; right:-150px; width:400px; height:400px; background:${theme.hl}; filter:blur(150px); opacity:0.15; z-index:0;\"></div>\n  \n  <div style=\"position:relative; z-index:1; text-align:center; margin-bottom:50px; padding-top:20px;\">\n    <h1 style=\"font-size:42px; font-weight:900; margin:0 0 15px; color:#fff; text-shadow:0 0 20px ${theme.glow};\">${svcName}</h1>\n    <p style=\"color:#aaa; font-size:18px; max-width:850px; margin:0 auto; line-height:1.8;\">${svcDesc}</p>\n  </div>\n  \n  <div style=\"position:relative; z-index:1; display:flex; gap:25px; align-items:center; justify-content:center; margin-top:30px;\">\n    ${cardsHtml}\n  </div>\n  \n  <div style=\"position:absolute; bottom:50px; left:0; width:100%; text-align:center; z-index:1;\">\n    <p style=\"color:#000; font-size:16px; font-weight:bold; background:linear-gradient(90deg, #fff, #ddd); display:inline-block; padding:15px 35px; border-radius:50px; box-shadow:0 10px 20px rgba(0,0,0,0.5);\">🚀 ابدأ مشروعك الآن – تواصل معنا للحصول على استشارة مجانية</p>\n  </div>\n</div>`;\n\nreturn [{ json: { ...selector, table_html: html } }];"
       },
-      "id": "5baeb724-3f76-4e67-9b61-845053185724",
+      "id": "a083c2c1-462f-4dc6-bef0-2cbb012f2d48",
       "name": "Generate Table HTML1",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        9088,
-        7216
+        10016,
+        7920
       ]
     },
     {
       "parameters": {
         "jsCode": "// ====== Generate HTML Comparison Table for the selected service ======\nconst selector = $input.first().json;\nconst packages = selector.all_packages;\nconst svcName = selector.selected_service.name;\nconst svcDesc = selector.selected_service.description;\n\n// Random themes for variation\nconst themes = [\n  { bg1: '#0f0c29', bg2: '#302b63', bg3: '#24243e', hl: '#00d4aa', cardBg: 'rgba(255,255,255,0.05)', midBg: 'rgba(0,212,170,0.08)' }, // Dark Teal\n  { bg1: '#141e30', bg2: '#243b55', bg3: '#141e30', hl: '#ffa700', cardBg: 'rgba(255,255,255,0.05)', midBg: 'rgba(255,167,0,0.08)' }, // Deep Blue & Gold\n  { bg1: '#232526', bg2: '#414345', bg3: '#232526', hl: '#ff4b2b', cardBg: 'rgba(255,255,255,0.05)', midBg: 'rgba(255,75,43,0.08)' }, // Charcoal & Red\n  { bg1: '#111', bg2: '#222', bg3: '#111', hl: '#8a2be2', cardBg: 'rgba(255,255,255,0.03)', midBg: 'rgba(138,43,226,0.08)' }, // Midnight Purple\n  { bg1: '#0b132b', bg2: '#1c2541', bg3: '#0b132b', hl: '#5bc0be', cardBg: 'rgba(255,255,255,0.05)', midBg: 'rgba(91,192,190,0.08)' } // Cyber Ocean\n];\nconst randFactor = selector.new_rotation.service_rotation_index + selector.new_rotation.package_rotation_index + selector.new_rotation.style_rotation_index;\nconst theme = themes[randFactor % themes.length];\n\nfunction getFeatures(pkg) {\n  const feats = pkg.features || {};\n  let techFeats = [];\n  if (feats.technical) techFeats = feats.technical;\n  else if (feats.technical_security) techFeats = feats.technical_security;\n  else if (feats.technology_stack) techFeats = feats.technology_stack;\n  else if (feats.backend_features) techFeats = feats.backend_features;\n  else if (feats.security_performance) techFeats = feats.security_performance;\n  \n  let genFeats = [];\n  if (feats.general) genFeats = feats.general;\n  else if (feats.business_features) genFeats = feats.business_features;\n\n  const general = (genFeats.filter(f => typeof f === 'string' && !f.startsWith('كل ')).sort(() => Math.random() - 0.5)).slice(0, 5);\n  const technical = (techFeats.filter(f => typeof f === 'string' && !f.startsWith('كل ')).sort(() => Math.random() - 0.5)).slice(0, 3);\n  const notIncl = (feats.not_included || []).slice(0, 2);\n  \n  return { general, technical, notIncl };\n}\n\nlet cardsHtml = '';\npackages.forEach((pkg, idx) => {\n  const isMid = idx === 1 || (packages.length === 2 && idx === 1);\n  const border = isMid ? theme.hl : 'rgba(255,255,255,0.12)';\n  const bg = isMid ? theme.midBg : theme.cardBg;\n  const scale = isMid ? 'transform:scale(1.04);z-index:2;box-shadow: 0 15px 35px rgba(0,0,0,0.3);' : 'opacity: 0.95;';\n  const { general, technical, notIncl } = getFeatures(pkg);\n  const rev = typeof pkg.revisions === 'number' ? pkg.revisions + ' مراجعات' : (pkg.revisions || '');\n\n  cardsHtml += `<div style=\"flex:1;background:${bg};border-radius:20px;padding:30px 20px;border:2px solid ${border};${scale}position:relative;\">`;\n  if (pkg.badge) cardsHtml += `<div style=\"position:absolute;top:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;background:${theme.hl};color:#000;padding:4px 16px;border-radius:12px;font-size:12px;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,0.2);\">${pkg.badge}</div>`;\n  else cardsHtml += `<div style=\"height:12px;\"></div>`;\n  \n  cardsHtml += `<h3 style=\"text-align:center;margin:15px 0 4px;font-size:20px;color:#fff;\">${pkg.package_name}</h3>`;\n  cardsHtml += `<p style=\"text-align:center;color:#999;font-size:12px;margin:0 0 16px;\">${pkg.package_name_en || ''}</p>`;\n  cardsHtml += `<div style=\"text-align:center;margin-bottom:12px;\"><span style=\"font-size:42px;font-weight:900;color:${theme.hl};\">$${pkg.price.base}+</span></div>`;\n  cardsHtml += `<div style=\"text-align:center;font-size:12px;color:#bbb;margin-bottom:16px;\">⏱ التنفيذ: ${pkg.delivery_days} أيام | ⟳ ${rev}</div>`;\n  cardsHtml += '<hr style=\"border:none;border-top:1px dashed rgba(255,255,255,0.15);margin:16px 0;\">';\n  \n  general.forEach(f => { cardsHtml += `<p style=\"font-size:13px;line-height:1.5;margin:8px 0;color:#eee;\">✔ ${f}</p>`; });\n  technical.forEach(f => { cardsHtml += `<p style=\"font-size:13px;line-height:1.5;margin:8px 0;color:${theme.hl};opacity:0.9;\">✦ ${f}</p>`; });\n  notIncl.forEach(f => { cardsHtml += `<p style=\"font-size:13px;line-height:1.5;margin:8px 0;color:#666;text-decoration:line-through;\">✖ ${f}</p>`; });\n  cardsHtml += '</div>';\n});\n\nconst html = `<div style=\"font-family:'Segoe UI',Tahoma,sans-serif;direction:rtl;width:1080px;min-height:500px;padding:50px 60px;background:linear-gradient(135deg,${theme.bg1} 0%,${theme.bg2} 50%,${theme.bg3} 100%);color:#fff;border-radius:24px;\">\n  <div style=\"text-align:center;margin-bottom:40px;\">\n    <h1 style=\"font-size:34px;margin:0 0 12px;color:${theme.hl};text-shadow: 0 2px 4px rgba(0,0,0,0.3);\">${svcName}</h1>\n    <p style=\"color:#aaa;font-size:16px;max-width:800px;margin:0 auto;line-height:1.6;\">${svcDesc}</p>\n  </div>\n  <div style=\"display:flex;gap:20px;align-items:center;\">${cardsHtml}</div>\n  <div style=\"text-align:center;margin-top:40px;\"><p style=\"color:#ddd;font-size:15px;font-weight:bold;background:rgba(0,0,0,0.2);display:inline-block;padding:10px 24px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);\">📩 تواصل معنا الآن للحصول على عرض تقني وتجاري مخصص لمشروعك</p></div>\n</div>`;\n\nreturn [{ json: { ...selector, table_html: html } }];"
       },
-      "id": "277726d7-a9f0-496d-8426-7bbe44f1ea64",
+      "id": "05a6a4b2-cc7d-4bcc-bf22-108255198086",
       "name": "Generate Table HTML2",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        9088,
-        7024
+        10016,
+        7728
       ]
     },
     {
       "parameters": {
         "jsCode": "// ====== Design 2: Premium Corporate ======\nconst selector = $input.first().json;\nconst packages = selector.all_packages || [];\nconst svcName = selector.selected_service.name || \"الخدمة\";\nconst svcDesc = selector.selected_service.description || \"\";\n\n// Corporate Luxury Themes\nconst themes = [\n  { bg1: '#111111', bg2: '#1a1a1a', accent: '#d4af37', text: '#e0e0e0', muted: '#777' }, // Gold Luxury\n  { bg1: '#0a0f16', bg2: '#121a24', accent: '#00e5ff', text: '#e0e0e0', muted: '#777' }, // Tech Cyan\n  { bg1: '#161214', bg2: '#201a1d', accent: '#ff4d6d', text: '#e0e0e0', muted: '#777' }  // Corporate Rose\n];\n\nconst randFactor = (selector.new_rotation?.service_rotation_index || 0) + (selector.new_rotation?.package_rotation_index || 0);\nconst theme = themes[randFactor % themes.length];\n\nfunction getFeatures(pkg) {\n  const feats = pkg.features || {};\n  let techFeats = feats.technical || feats.technical_security || feats.technology_stack || feats.backend_features || feats.security_performance || [];\n  let genFeats = feats.general || feats.business_features || [];\n\n  const general = genFeats.filter(f => typeof f === 'string' && !f.startsWith('كل ')).slice(0, 4);\n  const technical = techFeats.filter(f => typeof f === 'string' && !f.startsWith('كل ')).slice(0, 3);\n  const notIncl = (feats.not_included || []).slice(0, 2);\n  return { general, technical, notIncl };\n}\n\nlet cardsHtml = '';\npackages.forEach((pkg, idx) => {\n  const isMid = idx === 1 || (packages.length === 2 && idx === 1);\n  const border = isMid ? `2px solid ${theme.accent}` : `1px solid rgba(255,255,255,0.08)`;\n  const bg = isMid ? `linear-gradient(145deg, #222 0%, #1a1a1a 100%)` : `linear-gradient(145deg, #181818 0%, #111 100%)`;\n  const scale = isMid ? 'transform:translateY(-15px); box-shadow:0 30px 60px rgba(0,0,0,0.8); z-index:2;' : 'box-shadow:0 10px 30px rgba(0,0,0,0.4); z-index:1;';\n  const { general, technical, notIncl } = getFeatures(pkg);\n  const rev = typeof pkg.revisions === 'number' ? pkg.revisions + ' مراجعات' : (pkg.revisions || 'حسب الطلب');\n\n  cardsHtml += `<div style=\"flex:1; background:${bg}; border-radius:16px; padding:40px 30px; border:${border}; ${scale} transition:all 0.3s; position:relative;\">`;\n  \n  if (pkg.badge) {\n    cardsHtml += `<div style=\"position:absolute; top:20px; left:20px; background:${theme.accent}; color:#000; padding:4px 12px; border-radius:4px; font-size:11px; font-weight:bold; letter-spacing:1px; text-transform:uppercase;\">${pkg.badge}</div>`;\n  }\n  \n  cardsHtml += `<h3 style=\"margin:30px 0 0; font-size:22px; font-weight:600; color:#fff;\">${pkg.package_name}</h3>`;\n  cardsHtml += `<p style=\"color:${theme.muted}; font-size:13px; margin:5px 0 25px; letter-spacing:1px;\">${pkg.package_name_en || 'PLAN'}</p>`;\n  \n  cardsHtml += `<div style=\"margin-bottom:25px; display:flex; align-items:baseline; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:25px;\">\n    <span style=\"font-size:30px; color:${theme.accent}; font-weight:500; margin-left:5px;\">$</span>\n    <span style=\"font-size:55px; font-weight:800; color:#fff; line-height:1;\">${pkg.price.base}</span>\n  </div>`;\n  \n  cardsHtml += `<div style=\"display:flex; justify-content:space-between; font-size:12px; color:${theme.accent}; margin-bottom:25px; font-weight:600;\">\n    <span>◷ ${pkg.delivery_days} أيام للتسليم</span>\n    <span>⟳ ${rev}</span>\n  </div>`;\n  \n  general.forEach(f => { cardsHtml += `<p style=\"font-size:14px; line-height:1.7; margin:12px 0; color:${theme.text}; display:flex; align-items:flex-start;\"><span style=\"color:${theme.accent}; font-size:16px; margin-left:10px;\">✔</span> ${f}</p>`; });\n  technical.forEach(f => { cardsHtml += `<p style=\"font-size:14px; line-height:1.7; margin:12px 0; color:#bbb; display:flex; align-items:flex-start;\"><span style=\"color:${theme.accent}; font-size:14px; margin-left:10px; margin-top:2px;\">⟡</span> ${f}</p>`; });\n  notIncl.forEach(f => { cardsHtml += `<p style=\"font-size:14px; line-height:1.7; margin:12px 0; color:${theme.muted}; display:flex; align-items:flex-start;\"><span style=\"color:${theme.muted}; font-size:12px; margin-left:10px; margin-top:4px;\">✕</span> <span style=\"text-decoration:line-through;\">${f}</span></p>`; });\n  \n  cardsHtml += '</div>';\n});\n\nconst html = `<div style=\"font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; direction:rtl; width:1080px; height:1080px; box-sizing:border-box; padding:70px 60px; background:linear-gradient(135deg, ${theme.bg1} 0%, ${theme.bg2} 100%); color:#fff; position:relative;\">\n  \n  <div style=\"text-align:right; margin-bottom:50px; border-right:4px solid ${theme.accent}; padding-right:20px;\">\n    <h1 style=\"font-size:46px; font-weight:800; margin:0 0 15px; color:#fff; letter-spacing:-1px;\">${svcName}</h1>\n    <p style=\"color:${theme.muted}; font-size:18px; max-width:700px; margin:0; line-height:1.6; font-weight:400;\">${svcDesc}</p>\n  </div>\n  \n  <div style=\"display:flex; gap:25px; align-items:flex-start; margin-top:60px;\">\n    ${cardsHtml}\n  </div>\n  \n  <div style=\"position:absolute; bottom:60px; right:60px; display:flex; align-items:center;\">\n    <div style=\"width:40px; height:2px; background:${theme.accent}; margin-left:15px;\"></div>\n    <div style=\"text-align:right;\">\n      <p style=\"color:#fff; font-size:16px; font-weight:600; margin:0 0 5px; letter-spacing:1px;\">تواصل معنا لتحديد الباقة الأنسب لأهدافك</p>\n      <p style=\"color:${theme.accent}; font-size:14px; font-weight:bold; margin:0; direction:ltr; text-align:right;\">+213799678938 (WhatsApp) | contactstudiocodecraft@gmail.com</p>\n    </div>\n  </div>\n</div>`;\n\nreturn [{ json: { ...selector, table_html: html } }];"
       },
-      "id": "9aeaa1c9-721a-412b-b616-4d7afcee9f25",
+      "id": "3884a2b9-cfb2-4488-8c29-1ae7bc34f848",
       "name": "Generate Table HTML3",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        9088,
-        7408
+        10016,
+        8112
       ]
     },
     {
@@ -447,10 +426,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        8864,
-        7200
+        9792,
+        7904
       ],
-      "id": "e5b6826b-c2be-4c37-b0d5-c29d6e1efdfd",
+      "id": "c3ee70af-b746-45e2-a676-f88526b81036",
       "name": "Switch"
     },
     {
@@ -500,11 +479,48 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        9536,
-        7216
+        10464,
+        7920
       ],
-      "id": "f6b0d14a-aef7-4e5e-842d-6ce16cd63a87",
+      "id": "c7dfb54c-6976-4234-a8cc-fe47a2bc4ea7",
       "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v3.0",
+        "node": "61574377543737",
+        "edge": "photos",
+        "sendBinaryData": false,
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "message",
+                "value": "={{ $json.final_post }}"
+              },
+              {
+                "name": "url",
+                "value": "={{ $json.image_url }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        12032,
+        7936
+      ],
+      "id": "e9529667-1789-4fe8-9391-b4437ade76fe",
+      "name": "Facebook Graph API",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "5G2JP7M1qjfReb14",
+          "name": "Facebook Graph account"
+        }
+      }
     }
   ],
   "connections": {
@@ -633,18 +649,7 @@
       "main": [
         [
           {
-            "node": "Publish to Facebook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Publish to Facebook": {
-      "main": [
-        [
-          {
-            "node": "Update Stats",
+            "node": "Facebook Graph API",
             "type": "main",
             "index": 0
           }
@@ -765,6 +770,17 @@
         [
           {
             "node": "GH Models Review1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API": {
+      "main": [
+        [
+          {
+            "node": "Update Stats",
             "type": "main",
             "index": 0
           }
