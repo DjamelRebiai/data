@@ -491,17 +491,13 @@
         "graphApiVersion": "v3.0",
         "node": "61574377543737",
         "edge": "photos",
-        "sendBinaryData": false,
+        "sendBinaryData": true,
         "options": {
           "queryParameters": {
             "parameter": [
               {
                 "name": "message",
                 "value": "={{ $json.final_post }}"
-              },
-              {
-                "name": "url",
-                "value": "={{ $json.image_url }}"
               }
             ]
           }
@@ -510,7 +506,7 @@
       "type": "n8n-nodes-base.facebookGraphApi",
       "typeVersion": 1,
       "position": [
-        12032,
+        12200,
         7936
       ],
       "id": "e9529667-1789-4fe8-9391-b4437ade76fe",
@@ -521,6 +517,26 @@
           "name": "Facebook Graph account"
         }
       }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.image_url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "e4b2d978-2cf5-4e7a-9a99-abcd12345678",
+      "name": "Download Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        11900,
+        7936
+      ]
     }
   ],
   "connections": {
@@ -649,7 +665,7 @@
       "main": [
         [
           {
-            "node": "Facebook Graph API",
+            "node": "Download Image",
             "type": "main",
             "index": 0
           }
@@ -781,6 +797,17 @@
         [
           {
             "node": "Update Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Image": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API",
             "type": "main",
             "index": 0
           }
